@@ -1,5 +1,5 @@
 <?php
-$employees = [];
+$companies = [];
 
 while (1) {
     $input = readline();
@@ -9,20 +9,17 @@ while (1) {
     $tokens = explode(" -> ", $input);
     $company = $tokens[0];
     $id = $tokens[1];
-
-    $employees[$company][] = $id;
+    if (!key_exists($company, $companies)) {
+        $companies[$company] = [];
+    } elseif (in_array($id, $companies[$company])) {
+        continue;
+    }
+    $companies[$company][] = $id;
 }
-uksort($employees, function ($com1, $com2) use ($employees) {
-    $count1 = count($employees[$com1]);
-    $count2 = count($employees[$com2]);
-    return $count1 <=> $count2;
-});
-ksort($employees);
-foreach ($employees as $company => $workerArr) {
-    asort($workerArr);
+ksort($companies);
+foreach ($companies as $company => $workerArr) {
     echo $company . PHP_EOL;
-    $sort = array_unique($workerArr);
-    foreach ($sort as $worker) {
+    foreach ($workerArr as $worker) {
         echo "-- $worker\n";
     }
 }
