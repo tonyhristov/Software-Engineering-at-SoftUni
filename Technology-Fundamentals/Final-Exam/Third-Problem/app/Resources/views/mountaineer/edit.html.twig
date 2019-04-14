@@ -1,0 +1,62 @@
+{% extends "base.html.twig" %}
+
+{% block main %}
+    <div class="wrapper">
+        <form class="mountaineer-create" action="{{ path('edit', { id: mountaineer.id }) }}" method="post">
+            <div class="create-header">
+                Edit Mountaineer
+            </div>
+            <div class="create-mountaineeritem">
+                <div class="create-mountaineeritem-label">Name</div>
+                <input type="text" class="create-mountaineeritem-content" name="mountaineer[name]" required
+                       value="{{ mountaineer.name }}"/>
+            </div>
+            <div class="create-mountaineeritem">
+                <div class="create-mountaineeritem-label">Age</div>
+                <input type="number" min="1" class="create-mountaineeritem-content" name="mountaineer[age]" required
+                       value="{{ mountaineer.age }}"/>
+            </div>
+
+            <div class="create-mountaineeritem">
+                <div class="create-mountaineeritem-label">Gender</div>
+
+                {% if mountaineer.gender is same as("Male") %}
+                    <div class="gender-select">
+                        <div class="radio-div">
+                            <input class="radio-input" type="radio" name="mountaineer[gender]" value="Male" id="male" checked>
+                            <label class="radio-label" for="male">Male</label>
+                        </div>
+                        <div class="radio-div">
+                            <input class="radio-input" type="radio" name="mountaineer[gender]" value="Female" id="female">
+                            <label class="radio-label" for="female">Female</label>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="gender-select">
+                        <div class="radio-div">
+                            <input class="radio-input" type="radio" name="mountaineer[gender]" value="Male" id="male2">
+                            <label class="radio-label" for="male2">Male</label>
+                        </div>
+                        <div class="radio-div">
+                            <input class="radio-input" type="radio" name="mountaineer[gender]" value="Female" id="female2" checked>
+                            <label class="radio-label" for="female2">Female</label>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="create-mountaineeritem">
+                <div class="create-mountaineeritem-label">Last Seen Date</div>
+                <input type="date" class="create-mountaineeritem-content" name="mountaineer[lastSeenDate]"
+                       value="{{ mountaineer.lastSeenDate }}" required/>
+            </div>
+
+            <div class="create-button-holder">
+                <button type="submit" class="button">Edit Mountaineer</button>
+                <a type="button" href="{{ path('homepage') }}" class="button">Back</a>
+            </div>
+            {{ form_row(form._token) }}
+        </form>
+    </div>
+{% endblock %}
+

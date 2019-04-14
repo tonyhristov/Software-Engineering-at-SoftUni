@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+{% block main %}
+    <div class="wrapper">
+        <h1>Himalayas Rescue Register</h1>
+
+        <div class="button-holder">
+            <a type="button" href="{{ path('create') }}" class="button">Register a New Mountaineer</a>
+        </div>
+        <div class="content">
+            <div class="header">
+                <div class="mountaineer-label">Name</div>
+                <div class="mountaineer-label">Age</div>
+                <div class="mountaineer-label">Last Seen Date</div>
+                <div class="actions-label">Actions</div>
+            </div>
+            <div class="main">
+                {% for mountaineer in mountaineers %}
+                    <div class="mountaineer">
+                        <div class="mountaineer-item">
+                            {{ mountaineer.name }}
+                        </div>
+                        <div class="mountaineer-item">
+                            {{ mountaineer.age }}
+                        </div>
+                        <div class="mountaineer-item">
+                            {{ mountaineer.lastSeenDate }}
+                        </div>
+                        <div class="mountaineer-item mountaineer-actions">
+                            <a type="button" href="{{ path('edit', {id: mountaineer.id}) }}" class="mountaineerbutton">Edit</a>
+                            <a type="button" href="{{ path('delete', {id: mountaineer.id}) }}" class="mountaineerbutton">Remove</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
