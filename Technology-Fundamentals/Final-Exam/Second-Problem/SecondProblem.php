@@ -3,7 +3,6 @@
 $input = readline();
 
 $stores = [];
-
 while (true) {
     if ($input === "END") {
         break;
@@ -25,15 +24,13 @@ while (true) {
         }
     }
     $input = readline();
-}ksort($stores);
+}
 arsort($stores);
 krsort($stores);
 echo "Stores list:\n";
 foreach ($stores as $shops => $items) {
     echo $shops . PHP_EOL;
-
     foreach ($items as $item) {
         echo "<<$item>>\n";
     }
 }
-//print_r($stores);
