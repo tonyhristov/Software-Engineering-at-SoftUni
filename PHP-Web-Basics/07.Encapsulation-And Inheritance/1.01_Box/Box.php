@@ -1,5 +1,4 @@
 <?php
-
 class Box
 {
     /**
@@ -89,10 +88,3 @@ class Box
         return "Surface Area - $surfaceArea\nLateral Surface Area - $lateralSurfaceArea\nVolume - $volume\n";
     }
 }
-
-$volume = floatval(readline());
-$lateralSurfaceArea = floatval(readline());
-$surfaceArea = floatval(readline());
-
-$box = new Box($volume, $lateralSurfaceArea, $surfaceArea);
-echo $box;
