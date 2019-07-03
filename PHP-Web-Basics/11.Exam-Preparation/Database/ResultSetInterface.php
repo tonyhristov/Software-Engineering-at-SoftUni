@@ -11,4 +11,6 @@ interface ResultSetInterface
      * @return \Generator
      */
     public function fetch($className): \Generator;
+
+    public function fetchAssoc(): \Generator;
 }
