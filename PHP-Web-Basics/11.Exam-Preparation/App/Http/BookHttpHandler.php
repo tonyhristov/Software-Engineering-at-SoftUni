@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Data\BookDTO;
+use App\Data\EditBookDTO;
 use App\Http\UserHttpHandlerAbstract;
 use App\Service\Books\BooksServiceInterface;
 use App\Service\Genres\GenreServiceInterface;
@@ -91,10 +92,66 @@ class BookHttpHandler extends UserHttpHandlerAbstract
         try {
             $books = $this->bookService->getAllByAuthor();
             $this->render("books/myBooks", $books);
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
             $books = $this->bookService->getAllByAuthor();
             $this->render("books/myBooks", $books,
                 [$ex->getMessage()]);
+        }
+    }
+
+    public function allBooks()
+    {
+        if ($this->userService->isLogged()) {
+            $this->redirect("login.php");
+            exit;
+        }
+        try {
+            $books = $this->bookService->getAll();
+            $this->render("books/allBooks", $books);
+        } catch (\Exception $ex) {
+            $books = $this->bookService->getAll();
+            $this->render("books/allBooks", $books,
+                [$ex->getMessage()]);
+        }
+    }
+
+    public function view($getData = [])
+    {
+        if ($this->userService->isLogged()) {
+            $this->redirect("login.php");
+            exit;
+        }
+
+        $book = $this->bookService->getOneById($getData["id"]);
+        $this->render("books/viewBook", $book);
+    }
+
+    public function delete($getData = [])
+    {
+        if ($this->userService->isLogged()) {
+            $this->redirect("login.php");
+            exit;
+        }
+
+        $this->bookService->delete($getData["id"]);
+        $this->redirect("myBooks.php");
+    }
+
+    public function edit($formData = [], $getData = [])
+    {
+        if (isset($formData["edit"])) {
+
+        } else {
+            $book = $this->bookService->getOneById($getData["id"]);
+            $genres = $this->genreService->getAll();
+
+            $editBookDTO = new EditBookDTO();
+            $editBookDTO->setBook($book);
+            $editBookDTO->setGenres($genres);
+
+
+
+            $this->render("books/editBook", $editBookDTO);
         }
     }
 }
