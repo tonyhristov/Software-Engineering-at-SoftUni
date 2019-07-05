@@ -35,7 +35,7 @@ class EditBookDTO
     /**
      * @return GenreDTO[]
      */
-    public function getGenres(): array
+    public function getGenres()
     {
         return $this->genres;
     }
