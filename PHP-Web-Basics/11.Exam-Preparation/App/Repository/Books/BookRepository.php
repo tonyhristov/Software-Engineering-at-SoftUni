@@ -117,7 +117,7 @@ class BookRepository extends DatabaseAbstract implements BookRepositoryInterface
 
     public function findOneById(int $id): BookDTO
     {
-        $book = $this->db->query(
+        $row = $this->db->query(
             "
                   SELECT 
                       b.id as bookId,
@@ -141,22 +141,22 @@ class BookRepository extends DatabaseAbstract implements BookRepositoryInterface
                   WHERE b.id =?
                   ORDER BY b.added_on DESC
             ")->execute([$id])
-            ->fetch(BookDTO::class)
+            ->fetchAssoc()
             ->current();
 
+        /** @var BookDTO $book */
+        /** @var UserDTO $user */
+        /** @var GenreDTO $genre */
+        $book = $this->dataBinder->bind($row, BookDTO::class);
+        $genre = $this->dataBinder->bind($row, GenreDTO::class);
+        $user = $this->dataBinder->bind($row, UserDTO::class);
 
-//        /** @var BookDTO $book */
-//        /** @var UserDTO $user */
-//        /** @var GenreDTO $genre */
-//        $book = $this->dataBinder->bind($row, BookDTO::class);
-//        $genre = $this->dataBinder->bind($row, GenreDTO::class);
-//        $user = $this->dataBinder->bind($row, UserDTO::class);
-//
-//        $book->setId($row["bookId"]);
-//        $genre->setId($row['genreId']);
-//        $user->setId($row['userId']);
-//        $book->setGenre($genre);
-//        $book->setUser($user);
+        $book->setId($row['bookId']);
+        $genre->setId($row['genreId']);
+        $user->setId($row['userId']);
+
+        $book->setGenre($genre);
+        $book->setUser($user);
 
         return $book;
     }
