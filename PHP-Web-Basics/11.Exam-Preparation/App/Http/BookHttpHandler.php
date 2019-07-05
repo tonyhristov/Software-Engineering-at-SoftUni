@@ -139,8 +139,13 @@ class BookHttpHandler extends UserHttpHandlerAbstract
 
     public function edit($formData = [], $getData = [])
     {
-        if (isset($formData["edit"])) {
+        if ($this->userService->isLogged()) {
+            $this->redirect("login.php");
+            exit;
+        }
 
+        if (isset($formData["edit"])) {
+            $this->handleEditProcess($formData, $getData);
         } else {
             $book = $this->bookService->getOneById($getData["id"]);
             $genres = $this->genreService->getAll();
@@ -150,8 +155,27 @@ class BookHttpHandler extends UserHttpHandlerAbstract
             $editBookDTO->setGenres($genres);
 
 
-
             $this->render("books/editBook", $editBookDTO);
+        }
+    }
+
+    private function handleEditProcess($formData, $getData)
+    {
+        try {
+            $user = $this->userService->currentUser();
+            $genre = $this->genreService->getOneById($formData["genre_id"]);
+            /**\
+             * @var BookDTO $book
+             */
+            $book = $this->dataBinder->bind($formData, BookDTO::class);
+            $book->setGenre($genre);
+            $book->setUser($user);
+            $book->setId($getData["id"]);
+
+            $this->bookService->edit($book);
+            $this->redirect("myBooks.php");
+        } catch (\Exception $ex) {
+
         }
     }
 }
