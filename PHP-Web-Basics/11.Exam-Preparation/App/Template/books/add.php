@@ -1,8 +1,13 @@
 <?php
 /**
  * @var \App\Data\GenreDTO[] $data
+ * @var array $errors |null
  */
 ?>
+
+<?php foreach ($errors as $error): ?>
+    <p style="color: red"><?= $error ?></p>
+<?php endforeach; ?>
 
 <h1>ADD NEW BOOK</h1>
 
