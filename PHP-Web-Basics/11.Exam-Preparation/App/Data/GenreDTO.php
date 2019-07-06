@@ -48,5 +48,4 @@ class GenreDTO
     {
         $this->name = $name;
     }
-
 }

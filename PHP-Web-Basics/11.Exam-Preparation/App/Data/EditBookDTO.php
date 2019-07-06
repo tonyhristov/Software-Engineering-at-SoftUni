@@ -47,6 +47,4 @@ class EditBookDTO
     {
         $this->genres = $genres;
     }
-
-
 }
