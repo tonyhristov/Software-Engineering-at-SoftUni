@@ -212,5 +212,4 @@ class BookRepository extends DatabaseAbstract implements BookRepositoryInterface
         }
 
     }
-
 }

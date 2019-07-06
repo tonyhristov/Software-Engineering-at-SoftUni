@@ -42,10 +42,14 @@ class UserHttpHandler extends UserHttpHandlerAbstract
 
     public function login(UserServiceInterface $userService, array $formData = [])
     {
+        $username = "";
         if (isset($formData["login"])) {
             $this->handleLoginProcess($userService, $formData);
         } else {
-            $this->render("users/login");
+            if (isset($_SESSION["username"])) {
+                $username = $_SESSION["username"];
+            }
+            $this->render("users/login", $username === "" ? "" : $username);
         }
     }
 
@@ -60,35 +64,36 @@ class UserHttpHandler extends UserHttpHandlerAbstract
 
     private function handleRegisterProcess($userService, $formData)
     {
-        $user = $this->dataBinder->bind($formData, UserDTO::class);
+        try {
+            /**
+             * @var UserDTO $user
+             */
+            $user = $this->dataBinder->bind($formData, UserDTO::class);
 
-//        $user = UserDTO::create(
-//            $formData["username"],
-//            $formData["password"],
-//            $formData["first_name"],
-//            $formData["last_name"],
-//            $formData["born_on"]
-//        );
-
-        /**
-         * @var UserServiceInterface $userService
-         */
-        if ($userService->register($user, $formData["confirm_password"])) {
+            /**
+             * @var UserServiceInterface $userService
+             */
+            $userService->register($user, $formData["confirm_password"]);
+            $_SESSION["username"] = $user->getUsername();
             $this->redirect("login.php");
-        } else {
-            $this->render("users/register", null, new ErrorDTO("Password mismatch."));
+        } catch (\Exception $ex) {
+            $this->render("users/register", null, [$ex->getMessage()]);
         }
+
+
     }
 
     private function handleLoginProcess(UserServiceInterface $userService, array $formData)
     {
-        $user = $userService->login($formData["username"], $formData["password"]);
+        try {
+            $user = $userService->login($formData["username"], $formData["password"]);
 
-        if (null !== $user) {
-            $_SESSION["id"] = $user->getId();
-            $this->redirect("profile.php");
-        } else {
-            $this->render("users/login", null, new ErrorDTO("Username does not exist or password mismatch."));
+            if (null !== $user) {
+                $_SESSION["id"] = $user->getId();
+                $this->redirect("profile.php");
+            }
+        } catch (\Exception $ex) {
+            $this->render("users/login", null, [$ex->getMessage()]);
         }
     }
 
@@ -96,17 +101,8 @@ class UserHttpHandler extends UserHttpHandlerAbstract
     {
         $user = $this->dataBinder->bind($formData, UserDTO::class);
 
-//        $user = $userService->currentUser();
-//        $user->setUsername($formData["username"]);
-//        $user->setPassword($formData["password"]);
-//        $user->setFirstName($formData["first_name"]);
-//        $user->setLastName($formData["last_name"]);
-//        $user->setBornOn($formData["born_on"]);
-
-
         if ($userService->edit($user)) {
             $this->redirect("profile.php");
         }
     }
-
 }
