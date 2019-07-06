@@ -1,4 +1,5 @@
 <?php /** @var \App\Data\BookDTO[] $data */ ?>
+<?php /** @var array $errors |null */ ?>
 
 <h1>MY BOOKS</h1>
 
@@ -6,7 +7,11 @@
 <a href="profile.php">My Profile</a> |
 <a href="logout.php">logout</a>
 
-<br /><br />
+<br/><br/>
+
+<?php foreach ($errors as $error): ?>
+    <p style="color: red"><?= $error ?></p>
+<?php endforeach; ?>
 
 <table border="1">
     <thead>
