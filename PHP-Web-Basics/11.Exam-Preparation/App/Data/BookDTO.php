@@ -1,13 +1,24 @@
 <?php
 
-
 namespace App\Data;
 
 
 class BookDTO
 {
+    private CONST TITLE_MIN_LENGTH = 3;
+    private CONST TITLE_MAX_LENGTH = 50;
+
+    private CONST AUTHOR_MIN_LENGTH = 3;
+    private CONST AUTHOR_MAX_LENGTH = 50;
+
+    private CONST DESCRIPTION_MIN_LENGTH = 10;
+    private CONST DESCRIPTION_MAX_LENGTH = 10000;
+
+    private CONST IMAGE_MIN_LENGTH = 10;
+    private CONST IMAGE_MAX_LENGTH = 10000;
+
     /**
-     * @var int
+     * @var integer
      */
     private $id;
 
@@ -29,7 +40,7 @@ class BookDTO
     /**
      * @var string
      */
-    private $imageUrl;
+    private $imageURL;
 
     /**
      * @var GenreDTO
@@ -72,9 +83,16 @@ class BookDTO
 
     /**
      * @param string $title
+     * @throws \Exception
      */
     public function setTitle(string $title): void
     {
+        DtoValidator::validate(
+            self::TITLE_MIN_LENGTH,
+            self::TITLE_MAX_LENGTH,
+            $title,
+            'text',
+            'Title');
         $this->title = $title;
     }
 
@@ -88,9 +106,16 @@ class BookDTO
 
     /**
      * @param string $author
+     * @throws \Exception
      */
     public function setAuthor(string $author): void
     {
+        DtoValidator::validate(
+            self::AUTHOR_MIN_LENGTH,
+            self::AUTHOR_MAX_LENGTH,
+            $author,
+            'text',
+            'Author');
         $this->author = $author;
     }
 
@@ -104,26 +129,40 @@ class BookDTO
 
     /**
      * @param string $description
+     * @throws \Exception
      */
     public function setDescription(string $description): void
     {
+        DtoValidator::validate(
+            self::DESCRIPTION_MIN_LENGTH,
+            self::DESCRIPTION_MAX_LENGTH,
+            $description,
+            'text',
+            'Description');
         $this->description = $description;
     }
 
     /**
      * @return string
      */
-    public function getImageUrl(): string
+    public function getImageURL(): string
     {
-        return $this->imageUrl;
+        return $this->imageURL;
     }
 
     /**
-     * @param string $imageUrl
+     * @param string $imageURL
+     * @throws \Exception
      */
-    public function setImageUrl(string $imageUrl): void
+    public function setImageURL(string $imageURL): void
     {
-        $this->imageUrl = $imageUrl;
+        DtoValidator::validate(
+            self::IMAGE_MIN_LENGTH,
+            self::IMAGE_MAX_LENGTH,
+            $imageURL,
+            'text',
+            'Image URL');
+        $this->imageURL = $imageURL;
     }
 
     /**
@@ -173,5 +212,4 @@ class BookDTO
     {
         $this->addedOn = $addedOn;
     }
-
 }
