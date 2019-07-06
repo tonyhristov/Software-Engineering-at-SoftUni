@@ -68,10 +68,9 @@ class BookHttpHandler extends UserHttpHandlerAbstract
     {
         try {
             $currentUser = $this->userService->currentUser();
-            $genre = $this->genreService->getOneById($formData["genre_id"]);
-            /**
-             * @var BookDTO $book
-             */
+            $genre = $this->genreService->getOneById($formData['genre_id']);
+
+            /** @var BookDTO $book */
             $book = $this->dataBinder->bind($formData, BookDTO::class);
             $book->setGenre($genre);
             $book->setUser($currentUser);
@@ -79,7 +78,8 @@ class BookHttpHandler extends UserHttpHandlerAbstract
             $this->bookService->add($book);
             $this->redirect("myBooks.php");
         } catch (\Exception $ex) {
-
+            $genres = $this->genreService->getAll();
+            $this->render('books/add', $genres, [$ex->getMessage()]);
         }
     }
 
@@ -92,7 +92,7 @@ class BookHttpHandler extends UserHttpHandlerAbstract
         try {
             $books = $this->bookService->getAllByAuthor();
             $this->render("books/myBooks", $books);
-        } catch (\Exception $ex) {
+        }catch (\Exception $ex){
             $books = $this->bookService->getAllByAuthor();
             $this->render("books/myBooks", $books,
                 [$ex->getMessage()]);
@@ -108,7 +108,7 @@ class BookHttpHandler extends UserHttpHandlerAbstract
         try {
             $books = $this->bookService->getAll();
             $this->render("books/allBooks", $books);
-        } catch (\Exception $ex) {
+        }catch (\Exception $ex){
             $books = $this->bookService->getAll();
             $this->render("books/allBooks", $books,
                 [$ex->getMessage()]);
@@ -122,7 +122,7 @@ class BookHttpHandler extends UserHttpHandlerAbstract
             exit;
         }
 
-        $book = $this->bookService->getOneById($getData["id"]);
+        $book = $this->bookService->getOneById($getData['id']);
         $this->render("books/viewBook", $book);
     }
 
@@ -133,8 +133,16 @@ class BookHttpHandler extends UserHttpHandlerAbstract
             exit;
         }
 
-        $this->bookService->delete($getData["id"]);
-        $this->redirect("myBooks.php");
+        $currentUser = $this->userService->currentUser();
+        $currentBook = $this->bookService->getOneById($getData['id']);
+
+        if ($currentUser->getId() === $currentBook->getUser()->getId()) {
+            $this->bookService->delete($getData['id']);
+            $this->redirect("myBooks.php");
+        } else {
+            $myBooks = $this->bookService->getAllByAuthor();
+            $this->render('books/allBooks', $myBooks, ['Cannot delete this book!']);
+        }
     }
 
     public function edit($formData = [], $getData = [])
@@ -144,16 +152,15 @@ class BookHttpHandler extends UserHttpHandlerAbstract
             exit;
         }
 
-        if (isset($formData["edit"])) {
+        if (isset($formData['edit'])) {
             $this->handleEditProcess($formData, $getData);
         } else {
-            $book = $this->bookService->getOneById($getData["id"]);
+            $book = $this->bookService->getOneById($getData['id']);
             $genres = $this->genreService->getAll();
 
             $editBookDTO = new EditBookDTO();
             $editBookDTO->setBook($book);
             $editBookDTO->setGenres($genres);
-
 
             $this->render("books/editBook", $editBookDTO);
         }
@@ -162,20 +169,21 @@ class BookHttpHandler extends UserHttpHandlerAbstract
     private function handleEditProcess($formData, $getData)
     {
         try {
+            $genre = $this->genreService->getOneById($formData['genre_id']);
             $user = $this->userService->currentUser();
-            $genre = $this->genreService->getOneById($formData["genre_id"]);
-            /**\
-             * @var BookDTO $book
-             */
+            /** @var BookDTO $book */
             $book = $this->dataBinder->bind($formData, BookDTO::class);
             $book->setGenre($genre);
             $book->setUser($user);
-            $book->setId($getData["id"]);
-
+            $book->setId($getData['id']);
             $this->bookService->edit($book);
             $this->redirect("myBooks.php");
         } catch (\Exception $ex) {
-
+            $book = $this->bookService->getOneById($getData['id']);
+            $editBookDto = new EditBookDTO();
+            $editBookDto->setBook($book);
+            $editBookDto->setGenres($this->genreService->getAll());
+            $this->render('books/editBook', $editBookDto, [$ex->getMessage()]);
         }
     }
 }
