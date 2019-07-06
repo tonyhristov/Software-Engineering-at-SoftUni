@@ -27,5 +27,4 @@ interface BookRepositoryInterface
      */
     public function findAllByAuthorId(int $id): \Generator;
 
-
 }
