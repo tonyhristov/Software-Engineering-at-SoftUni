@@ -1,15 +1,15 @@
 <h2>Register Form</h2>
 
 <?php
-///**
-// * @var array $errors
-// */
-//?>
-<!---->
-<?php //foreach ($errors as $error): ?>
-<!--    <p style="color: red">--><?//= $error ?><!--</p>-->
-<!--    <br/><br/>-->
-<?php //endforeach; ?>
+/**
+ * @var array $errors
+ */
+?>
+
+<?php foreach ($errors as $error): ?>
+    <p style="color: red"><?= $error ?></p>
+    <br/><br/>
+<?php endforeach; ?>
 
 <form method="post">
     <label>
