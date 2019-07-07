@@ -1,17 +1,22 @@
 <h2>Login Form</h2>
-<!---->
+
 <?php
-///**
-// * @var array $errors
-// * @var \App\Data\UserDTO $data
-// */
-//?>
-<!---->
-<!---->
-<?php //foreach ($errors as $error): ?>
-<!--    <p style="color: red">--><?//= $error ?><!--</p>-->
-<!--    <br/><br/>-->
-<?php //endforeach; ?>
+/**
+ * @var array $errors
+ * @var \App\Data\UserDTO $data
+ */
+?>
+
+<?php if ($data != ""):?>
+<p style="color: green">
+    Congratulation, <?= $data ?> Login in our platform!
+</p>
+<?php endif; ?>
+
+<?php foreach ($errors as $error): ?>
+    <p style="color: red"><?= $error ?></p>
+    <br/><br/>
+<?php endforeach; ?>
 
 <form method="post">
     <label>
