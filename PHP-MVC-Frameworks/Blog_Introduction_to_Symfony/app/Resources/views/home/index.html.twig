@@ -1,8 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     <div class="container body-content">
         <div class="row">
+
+            {% for msg in app.session.flashBag.get("created") %}
+                <div class="alert alert-success">
+                    {{ msg }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+
+            {% for msg in app.session.flashBag.get("deleted") %}
+                <div class="alert alert-danger">
+                    {{ msg }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+
+            {% for msg in app.session.flashBag.get("edited") %}
+                <div class="alert alert-success">
+                    {{ msg }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+
+
             {% for article in articles %}
                 <div class="col-md-6">
                     <article>
@@ -10,13 +40,26 @@
                             <h2>{{ article.title }}</h2>
                         </header>
 
+                        <a href="{{ path('article_view', {id: article.id}) }}">
+                            <img src="{{ article.imageURL }}" alt="Cannot load the picture" width="400" height="200">
+                        </a>
                         <p>
                             {{ article.summary }}
                         </p>
 
+                        <small>
+                            View: {{ article.viewCount }}
+                        </small>
+                        <br>
+
+                        <small>
+                            Date Added: {{ article.dateAdded | date("F jS \\a\\t g:ia") }}
+                        </small>
+
                         <small class="author">
                             {{ article.author.fullName }}
                         </small>
+
 
                         <footer>
                             <div class="pull-right">
