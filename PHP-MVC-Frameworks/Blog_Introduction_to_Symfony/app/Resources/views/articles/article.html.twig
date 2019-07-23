@@ -9,6 +9,8 @@
                         <h2>{{ article.title }}</h2>
                     </header>
 
+                    <img src="{{ article.imageURL }}" alt="Cannot load the picture" width="600" height="300">
+
                     <p>
                         {{ article.content }}
                     </p>
@@ -19,10 +21,12 @@
 
                     <footer>
                         <div class="pull-right">
-                            <a class="btn btn-success btn-xs" href="{{ path('article_edit', {id: article.id}) }}">Edit
+                            {% if app.getUser() and (app.getUser().isAuthor(article) or app.getUser.isAdmin() ) %}
+                                <a class="btn btn-success btn-xs" href="{{ path('article_edit', {id: article.id}) }}">Edit
                                 </a>
-                            <a class="btn btn-danger btn-xs" href="{{ path('article_delete', {id: article.id}) }}">Delete
+                                <a class="btn btn-danger btn-xs" href="{{ path('article_delete', {id: article.id}) }}">Delete
                                 </a>
+                            {% endif %}
                             <a class="btn btn-default btn-xs" href="{{ path('blog_index') }}">back &raquo;</a>
                         </div>
                     </footer>
