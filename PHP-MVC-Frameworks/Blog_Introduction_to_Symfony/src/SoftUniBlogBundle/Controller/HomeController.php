@@ -16,9 +16,11 @@ class HomeController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
+        $articles = $this
+            ->getDoctrine()
+            ->getRepository(Article::class)
+            ->findBy([], ["viewCount" => "DESC", "dateAdded" => "DESC"]);
 
-        // replace this example code with whatever you need
         return $this->render('home/index.html.twig', ["articles" => $articles]);
     }
 }
