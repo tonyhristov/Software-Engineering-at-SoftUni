@@ -2,6 +2,7 @@
 
 namespace SoftUniBlogBundle\Controller;
 
+use SoftUniBlogBundle\Entity\Role;
 use SoftUniBlogBundle\Entity\User;
 use SoftUniBlogBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,10 +26,18 @@ class UserController extends Controller
             $passwordHash = $this->get("security.password_encoder")
                 ->encodePassword($user, $user->getPassword());
 
+            $roleUser = $this
+                ->getDoctrine()
+                ->getRepository(Role::class)
+                ->findOneBy(["name" => "ROLE_USER"]);
+
+            $user->addRoles($roleUser);
+
             $user->setPassword($passwordHash);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
 
             return $this->redirectToRoute("security_login");
         }
