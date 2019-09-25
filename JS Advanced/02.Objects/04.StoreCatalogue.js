@@ -19,12 +19,12 @@ function solve(input) {
    }
 
    let sortedInitials = Object.keys(catalogue).sort(ascSort);
-   for (const initial of sortedInitials) {
+   for (let initial of sortedInitials) {
       console.log(initial);
       let products = catalogue[initial];
       let sortedProducts = Object.keys(products).sort(ascSort);
 
-      for (const product of sortedProducts) {
+      for (let product of sortedProducts) {
          console.log(`  ${product}: ${products[product]}`);
       }
    }
