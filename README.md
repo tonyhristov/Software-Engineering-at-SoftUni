@@ -10,7 +10,6 @@ PHP MVC Frameworks
 JavaScript Advanced
 JavaScript Applications
 Express JS
-Angular Fundamentals
 ReactJS Fundamentals
 CSS Advanced
 HTML & CSS
