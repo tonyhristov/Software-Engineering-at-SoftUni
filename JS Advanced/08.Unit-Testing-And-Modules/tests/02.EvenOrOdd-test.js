@@ -1,4 +1,4 @@
-const isOddOrEven = require('../isOddOrEven');
+const isOddOrEven = require('../02.EvenOrOdd');
 let assert = require('chai').assert;
 
 describe('isOddOrEven function', function() {
