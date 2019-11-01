@@ -1,6 +1,19 @@
 # Software Engineering at SoftUni (Software University)
 
-# Courses
+####Information about overall program
+```
+The studying program of the Software University is a combination of programming courses, entirely 
+focused on the gaining in depth knowledge of fundamentals of programming, developing logical 
+and algorithmic thinking, as well as the acquiring of practical skills to work with 
+the latest software technologies.
+
+The schedule provides a choice of 4 professions focused on C#, Java, JavaScript and PHP 
+technologies, each profession includes modules lasting 4 months and each module combines 
+2 or 3 courses. The lessons in the courses are divided into lectures and exercises, each 
+course ends with a practical and theoretical exam.
+```
+
+## Courses
 
 ```
 Programming Basics with Java
@@ -15,7 +28,7 @@ CSS Advanced
 HTML & CSS
 ```
 
-# Completed Courses
+## Completed Courses
 
 ```
 Programming Basics with Java
@@ -24,7 +37,7 @@ PHP WEB Basics
 PHP MVC Frameworks
 ```
 
-# Programming Basics with Java
+## Programming Basics with Java
 
 ```
 The "Programming Basics" course gives you the first steps in to programming. In this 
@@ -32,7 +45,7 @@ course you will learn basic coding skills, how to work with IDE and console, how
 use statements(if, if-else), loops(for, while, do-while) and variables.
 ```
 
-# Technology Fundamentals with PHP
+## Technology Fundamentals with PHP
 ```
 In "Technology Fundamentals" module you will extend the knowledge from "Programming Basics".
 Also you will gain skills with basic techniques and tool which are used in more practical 
@@ -40,7 +53,7 @@ programs. Along with programming techniques, the module develops algorithmic thi
 and builds problem-solving skills by working on hundreds of hands-on exercises.
 ```
 
-# PHP WEB Basics
+## PHP WEB Basics
 ```
 The PHP Web Basics course will introduce you to the basics of web programming with PHP. 
 The principles and peculiarities of object-oriented programming are studied, with direct
@@ -51,7 +64,7 @@ web application with the possibility of user authentication (registration with a
 name and password) related to a database.
 ```
 
-# PHP MVC Frameworks
+## PHP MVC Frameworks
 ```
 The PHP MVC Frameworks course will teach you how to build modern Web applications based on 
 the Model-View-Controller template using a technology framework. Universal techniques for 
@@ -61,7 +74,7 @@ to relational database and more. The training also addresses more complex topics
 to application validation and security, as well as automation of server activities. 
 The course ends with the development and protection of a practical web project.
 ```
-# JavaScript Advanced
+## JavaScript Advanced
 
 ```
 In JS Advanced you will gain in-depth knowledge in JavaScript as you study more sophisticated
@@ -70,7 +83,7 @@ and how to manipulate it(add elements and delete them), how to unit test your co
 about the OOP(object oriented programming) part of programming with JS.
 ```
 
-# JavaScript Applications
+## JavaScript Applications
 
 ```
 In the "JS Applications" course you will learn what HTTP requests are and how to use them. 
