@@ -1,6 +1,6 @@
 # Software Engineering at SoftUni (Software University)
 
-##Information about overall program
+Information about overall program
 ```
 The studying program of the Software University is a combination of programming courses, entirely 
 focused on the gaining in depth knowledge of fundamentals of programming, developing logical 
