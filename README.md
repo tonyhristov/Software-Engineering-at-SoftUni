@@ -69,3 +69,12 @@ concepts like: IIFE and Clousure. Also in this course you will learn more about 
 and how to manipulate it(add elements and delete them), how to unit test your code and more
 about the OOP(object oriented programming) part of programming with JS.
 ```
+
+# JavaScript Applications
+
+```
+In the "JS Applications" course you will learn what HTTP requests are and how to use them. 
+You will be introduced to REST Services, what databases are and how to handle them, what is 
+asynchronous code, what are Templating and Routing. You will understand what the architecture 
+of an application is and how to properly structure your applications.
+```
