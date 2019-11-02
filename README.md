@@ -2,10 +2,10 @@
 
 Information about overall program
 ```
-The studying program of the Software University is a combination of programming courses, entirely 
-focused on the gaining in depth knowledge of fundamentals of programming, developing logical 
-and algorithmic thinking, as well as the acquiring of practical skills to work with 
-the latest software technologies.
+The studying program of the Software University is a combination of programming courses, 
+entirely focused on gaining in depth knowledge of fundamentals of programming, developing 
+logical and algorithmic thinking, as well as acquiring of practical skills to work with the 
+latest software technologies.
 
 The schedule provides a choice of 4 professions focused on C#, Java, JavaScript and PHP 
 technologies, each profession includes modules lasting 4 months and each module combines 
