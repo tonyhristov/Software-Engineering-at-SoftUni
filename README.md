@@ -51,29 +51,27 @@ In the "Technology Fundamentals" module you will extend the knowledge from "Prog
 Also, you will gain skills with basic techniques and tool which are used in more practical 
 programs. Along with programming techniques, the module develops algorithmic thinking and builds 
 problem-solving skills by working on hundreds of hands-on exercises.
-
 ```
 
 ## PHP WEB Basics
 ```
 The PHP Web Basics course will introduce you to the basics of web programming with PHP. 
 The principles and peculiarities of object-oriented programming are studied, with direct
-application in the work with database information and dynamic web content. Basic 
-concepts of web technologies such as HTTP protocol and user data processing through 
-forms are discussed. The acquired skills allow the development of a complete dynamic 
-web application with the possibility of user authentication (registration with a 
-name and password) related to a database.
+application in the work with database information and dynamic web content. Basic concepts of web 
+technologies such as HTTP protocol and user data processing through forms are discussed. 
+The acquired skills allow the development of a complete dynamic web application with the 
+possibility of user authentication (registration with a name and password) related to a database.
 ```
 
 ## PHP MVC Frameworks
 ```
-The PHP MVC Frameworks course will teach you how to build modern Web applications based on 
-the Model-View-Controller template using a technology framework. Universal techniques for 
-working with dynamic content are being studied, which are applied in practically every web 
-application - using HTML templates, querying, presenting information in objects related 
-to relational database and more. The training also addresses more complex topics related 
-to application validation and security, as well as automation of server activities. 
-The course ends with the development and protection of a practical web project.
+The PHP MVC Frameworks course will teach you how to build modern Web applications based on the 
+Model-View-Controller template using a technology framework. Universal techniques for working with 
+dynamic content are being studied, which are applied in practically every web application - using 
+HTML templates, querying, presenting information in objects related to relational database and more.
+The training also addresses more complex topics related to application validation and security, 
+as well as automation of server activities. The course ends with the development and protection 
+of a practical web project.
 ```
 ## JavaScript Advanced
 
