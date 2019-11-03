@@ -3,14 +3,14 @@
 Information about overall program
 ```
 The studying program of the Software University is a combination of programming courses, 
-entirely focused on gaining in depth knowledge of fundamentals of programming, developing 
-logical and algorithmic thinking, as well as acquiring of practical skills to work with the 
+entirely focused on gaining in-depth knowledge of fundamentals of programming, developing 
+logical and algorithmic thinking, as well as acquiring practical skills to work with the 
 latest software technologies.
 
-The schedule provides a choice of 4 professions focused on C#, Java, JavaScript and PHP 
+The schedule provides a choice of 4 professions focused on C#, Java, JavaScript, and PHP 
 technologies, each profession includes modules lasting 4 months and each module combines 
-2 or 3 courses. The lessons in the courses are divided into lectures and exercises, each 
-course ends with a practical and theoretical exam.
+2 or 3 courses. The lessons in the courses are divided into lectures and exercises,
+each course ends with a practical and theoretical exam.
 ```
 
 ## Courses
@@ -40,17 +40,18 @@ PHP MVC Frameworks
 ## Programming Basics with Java
 
 ```
-The "Programming Basics" course gives you the first steps in to programming. In this 
+The "Programming Basics" course gives you the first steps into programming. In this 
 course you will learn basic coding skills, how to work with IDE and console, how to 
 use statements(if, if-else), loops(for, while, do-while) and variables.
 ```
 
 ## Technology Fundamentals with PHP
 ```
-In "Technology Fundamentals" module you will extend the knowledge from "Programming Basics".
-Also you will gain skills with basic techniques and tool which are used in more practical 
-programs. Along with programming techniques, the module develops algorithmic thinking 
-and builds problem-solving skills by working on hundreds of hands-on exercises.
+In the "Technology Fundamentals" module you will extend the knowledge from "Programming Basics".
+Also, you will gain skills with basic techniques and tool which are used in more practical 
+programs. Along with programming techniques, the module develops algorithmic thinking and builds 
+problem-solving skills by working on hundreds of hands-on exercises.
+
 ```
 
 ## PHP WEB Basics
@@ -78,9 +79,9 @@ The course ends with the development and protection of a practical web project.
 
 ```
 In JS Advanced you will gain in-depth knowledge in JavaScript as you study more sophisticated
-concepts like: IIFE and Clousure. Also in this course you will learn more about the DOM tree 
+concepts like IIFE and Clousure. Also in this course, you will learn more about the DOM tree 
 and how to manipulate it(add elements and delete them), how to unit test your code and more
-about the OOP(object oriented programming) part of programming with JS.
+about the OOP(object-oriented programming) part of programming with JS.
 ```
 
 ## JavaScript Applications
