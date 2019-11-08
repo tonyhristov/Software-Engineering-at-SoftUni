@@ -9,13 +9,11 @@ function result() {
    class PartyBalloon extends Balloon {
       constructor(color, gasWeight, ribbonColor, ribbonLength) {
          super(color, gasWeight);
-         this._ribbon = {
-            color: ribbonColor,
-            length: ribbonLength,
-         };
+         this.ribbonColor = ribbonColor;
+         this.ribbonLength = ribbonLength;
       }
       get ribbon() {
-         return this._ribbon;
+         return { color: this.ribbonColor, length: this.ribbonLength };
       }
    }
 
