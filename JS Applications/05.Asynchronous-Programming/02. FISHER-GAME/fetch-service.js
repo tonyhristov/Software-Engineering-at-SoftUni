@@ -18,7 +18,15 @@ const catches = (function() {
       return fetch(mkUrl(''), headers).then(res => res.json());
    };
 
-   const put = data => {};
+   const put = (id, data) => {
+      const headers = {
+         method: 'PUT',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(data),
+      };
+
+      return fetch(mkUrl(id), headers).then(res => res.json());
+   };
 
    const del = id => {
       const headers = { method: 'DELETE' };
