@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+      <title>Books</title>
+      <link rel="stylesheet" href="./styles.css" />
+      <script type="module" src="./fetch-service.js"></script>
+      <script type="module" src="./app.js"></script>
+   </head>
+   <body>
+      <button id="load-books">
+         LOAD ALL BOOKS
+      </button>
+      <table>
+         <thead>
+            <tr>
+               <th>Title</th>
+               <th>Author</th>
+               <th>Isbn</th>
+               <th>Action</th>
+            </tr>
+         </thead>
+         <tbody id="all-books">
+            <!-- <tr>
+               <td>Harry Poter</td>
+               <td>J. K. Rowling</td>
+               <td>0-7475-3269-9</td>
+               <td>
+                  <button>Edit</button>
+                  <button>Delete</button>
+               </td>
+            </tr>
+            <tr>
+               <td>Game of Thrones</td>
+               <td>George R. R. Martin</td>
+               <td>9780553386790</td>
+               <td>
+                  <button>Edit</button>
+                  <button>Delete</button>
+               </td>
+            </tr> -->
+         </tbody>
+      </table>
+
+      <form>
+         <h3>CREATE FORM</h3>
+         <label>TITLE</label>
+         <input type="text" id="title" placeholder="Title..." />
+         <label>AUTHOR</label>
+         <input type="text" id="author" placeholder="Author..." />
+         <label>ISBN</label>
+         <input type="text" id="isbn" placeholder="Isnb..." />
+         <button id="create-book">Create Book</button>
+      </form>
+
+      <form>
+         <h3>EDIT FORM</h3>
+         <input type="hidden" value="" id="edit-id" />
+         <label>TITLE</label>
+         <input type="text" id="edit-title" placeholder="Title..." />
+         <label>AUTHOR</label>
+         <input type="text" id="edit-author" placeholder="Author..." />
+         <label>ISBN</label>
+         <input type="text" id="edit-isbn" placeholder="Isnb..." />
+         <button id="edit-book-post">Edit Book</button>
+      </form>
+   </body>
+</html>
+
+<!--Feel free to change/update/modify the HTML Structure-->
