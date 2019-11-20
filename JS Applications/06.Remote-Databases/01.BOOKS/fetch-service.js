@@ -1,7 +1,7 @@
-const username = 'tony';
-const password = '123456789';
-const appKey = 'kid_SJaHmjW3H';
-const appSecret = 'f0d282c7dd614b82a86dcc6d8252af3f';
+const username = 'username';
+const password = 'password';
+const appKey = 'appKey';
+const appSecret = 'appSecret';
 const baseUrl = 'https://baas.kinvey.com';
 
 function makeHeaders(httpMethod, data) {
