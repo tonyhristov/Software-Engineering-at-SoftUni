@@ -1,145 +1,27 @@
-import { get, post, put, del } from './fetch-service.js';
+import { displayBooks } from './display-books.js';
+import { addBook } from './add-book.js';
+import { editBookGet, editBookPost } from './edit-book.js';
+import { deleteBook } from './delete-books.js';
 
-const html = {
-   $getAllBooks: () => document.getElementById('all-books'),
-   $getBookTitle: () => document.getElementById('title'),
-   $getBookAuthor: () => document.getElementById('author'),
-   $getBookIsbn: () => document.getElementById('isbn'),
-   $getEditTitle: () => document.getElementById('edit-title'),
-   $getEditAuthor: () => document.getElementById('edit-author'),
-   $getEditIsbn: () => document.getElementById('edit-isbn'),
-   $getEditId: () => document.getElementById('edit-id'),
-};
-
-const actions = {
+export const actions = {
    'load-books': async function() {
-      try {
-         const books = await get('appdata', 'books');
-         const booksContainer = html.$getAllBooks();
-         const fragment = document.createDocumentFragment();
-
-         books.forEach(b => {
-            const tr = document.createElement('tr');
-            const titleTd = document.createElement('td');
-            const authorTd = document.createElement('td');
-            const isbnTd = document.createElement('td');
-            const actionsTd = document.createElement('td');
-            const editBtn = document.createElement('button');
-            const delBtn = document.createElement('button');
-
-            titleTd.textContent = b.title;
-            authorTd.textContent = b.author;
-            isbnTd.textContent = b.isbn;
-
-            editBtn.textContent = 'Edit';
-            editBtn.id = b._id;
-            editBtn.addEventListener('click', this['edit-book-get']);
-
-            delBtn.textContent = 'Delete';
-            delBtn.id = b._id;
-            delBtn.addEventListener('click', this['delete-book']);
-
-            actionsTd.appendChild(editBtn);
-            actionsTd.appendChild(delBtn);
-
-            tr.appendChild(titleTd);
-            tr.appendChild(authorTd);
-            tr.appendChild(isbnTd);
-            tr.appendChild(actionsTd);
-            fragment.appendChild(tr);
-         });
-
-         booksContainer.innerHTML = '';
-         booksContainer.appendChild(fragment);
-      } catch (err) {
-         console.log(err);
-      }
+      await displayBooks();
    },
 
    'create-book': async function() {
-      const title = html.$getBookTitle();
-      const author = html.$getBookAuthor();
-      const isbn = html.$getBookIsbn();
-
-      if (title !== null && author !== null && isbn !== null) {
-         const data = {
-            title: title.value,
-            author: author.value,
-            isbn: isbn.value,
-         };
-
-         try {
-            await post('appdata', 'books', data);
-
-            title.value = '';
-            author.value = '';
-            isbn.value = '';
-
-            this['load-books']();
-         } catch (err) {
-            console.log(err);
-         }
-
-         alert('Great! You successfully created a book!');
-      }
+      await addBook();
    },
 
    'edit-book-get': async function() {
-      const id = this.id;
-      try {
-         const singleBook = await get('appdata', `books/${id}`);
-
-         const title = html.$getEditTitle();
-         const author = html.$getEditAuthor();
-         const isbn = html.$getEditIsbn();
-         const idElement = html.$getEditId();
-
-         title.value = singleBook.title;
-         author.value = singleBook.author;
-         isbn.value = singleBook.isbn;
-         idElement.value = singleBook._id;
-      } catch (err) {
-         console.log(err);
-      }
+      await editBookGet(this);
    },
 
    'edit-book-post': async function() {
-      const title = html.$getEditTitle();
-      const author = html.$getEditAuthor();
-      const isbn = html.$getEditIsbn();
-      const id = html.$getEditId();
-      if (title !== null && author !== null && isbn !== null) {
-         const data = {
-            title: title.value,
-            author: author.value,
-            isbn: isbn.value,
-         };
-         if (confirm('Are these the correct parameters?')) {
-            try {
-               const modified = await put('appdata', `books/${id.value}`, data);
-
-               id.value = '';
-               title.value = '';
-               author.value = '';
-               isbn.value = '';
-               actions['load-books']();
-            } catch (err) {
-               console.log(err);
-            }
-         }
-      }
+      await editBookPost();
    },
 
    'delete-book': async function() {
-      if (confirm('Do you really want to Delete this?')) {
-         const id = this.id;
-         try {
-            await del('appdata', `books/${id}`);
-            actions['load-books']();
-         } catch (err) {
-            console.log(err);
-         }
-      }
+      await deleteBook(this);
    },
 };
 
