@@ -10,7 +10,7 @@ const elements = {
       const towns = elements.$towns().value.split(', ');
 
       const source = await fetch(
-         'http://127.0.0.1:5500/07.Templating/01.%20List-Towns/towns.hbs'
+         'http://127.0.0.1:5500/07.Templating/01.List-Towns/towns.hbs'
       ).then(res => res.text());
 
       const template = Handlebars.compile(source);
