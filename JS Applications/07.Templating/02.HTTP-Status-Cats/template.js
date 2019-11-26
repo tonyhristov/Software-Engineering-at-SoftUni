@@ -14,7 +14,7 @@ function toggle(e) {
 
    async function renderCatTemplate() {
       const source = await fetch(
-         'http://127.0.0.1:5500/07.Templating/02.%20HTTP%20Status%20Cats/templates/all-cats.hbs'
+         'http://127.0.0.1:5500/07.Templating/02.HTTP-Status-Cats/templates/all-cats.hbs'
       ).then(res => res.text());
 
       const template = Handlebars.compile(source);
