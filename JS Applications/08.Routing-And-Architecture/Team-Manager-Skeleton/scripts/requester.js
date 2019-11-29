@@ -1,4 +1,4 @@
-const baseUrl = 'https::/baas.kinvey.com';
+const baseUrl = 'https://baas.kinvey.com/';
 const appKey = 'kid_Sk9wAm33B';
 const appSecret = 'faaee50ce82e446c9ab356ab8ab9fdaa';
 
@@ -36,7 +36,7 @@ function deserializeData(x) {
 }
 
 function fetchData(kinveyModule, endpoint, headers) {
-   const url = `${baseUrl}/ ${kinveyModule}/${appKey}/${endpoint}`;
+   const url = `${baseUrl}${kinveyModule}/${appKey}/${endpoint}`;
 
    return fetch(url, headers)
       .then(handleError)
