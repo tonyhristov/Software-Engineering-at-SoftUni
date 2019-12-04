@@ -1,9 +1,9 @@
 import { getHome } from './controllers/homeController.js';
 import { getLogin, postLogin } from './controllers/userController.js';
 import { getRegister, postRegister } from './controllers/userController.js';
-import { logoutUser } from './controllers/userController.js';
+import { logoutUser, getProfile } from './controllers/userController.js';
 import { getCreate, postCreate } from './controllers/eventController.js';
-import { getDetails } from './controllers/eventController.js';
+import { getDetails, joinEvent } from './controllers/eventController.js';
 import { getEdit, postEdit } from './controllers/eventController.js';
 import { closeEvent } from './controllers/eventController.js';
 
@@ -21,6 +21,8 @@ const app = Sammy('body', function() {
 
    this.get('#/logout', logoutUser);
 
+   this.get('#/profile', getProfile);
+
    //event
    this.get('#/create', getCreate);
    this.post('#/create', postCreate);
@@ -31,5 +33,7 @@ const app = Sammy('body', function() {
    this.post('#/edit/:id', postEdit);
 
    this.get('#/close/:id', closeEvent);
+
+   this.get('#/join/:id', joinEvent);
 });
 app.run('#/home');
