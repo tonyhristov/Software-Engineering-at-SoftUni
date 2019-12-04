@@ -3,9 +3,13 @@ import { getAllEvents } from '../models/eventModel.js';
 
 export async function getHome(context) {
    let newContext = checkContext(context);
-   let events = await getAllEvents();
+   try {
+      let events = await getAllEvents();
 
-   newContext.events = events;
+      newContext.events = events;
+   } catch (err) {
+      console.log(err);
+   }
 
    getTemplate('home.hbs', newContext);
 }
