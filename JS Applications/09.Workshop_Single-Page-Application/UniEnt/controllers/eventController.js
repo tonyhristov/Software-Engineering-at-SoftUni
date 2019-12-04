@@ -63,3 +63,20 @@ export async function closeEvent(context) {
       context.redirect('#/home');
    });
 }
+
+export async function joinEvent(context) {
+   let newContext = checkContext(context);
+   let event = await getEvent(context.params.id);
+
+   event.peopleInterestedIn++;
+
+   Object.keys(event).forEach(key => {
+      newContext[key] = event[key];
+   });
+
+   edit(context.params.id, event)
+      .then(function() {
+         context.redirect(`#/details/${context.params.id}`);
+      })
+      .catch(console.log);
+}
