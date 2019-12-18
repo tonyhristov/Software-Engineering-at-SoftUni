@@ -1,8 +1,6 @@
 import { getPartials, setHeaderInfo } from '../shared.js';
 import { get, post, put, del } from '../requester.js';
 
-const partials = getPartials();
-
 export function getShare(ctx) {
    setHeaderInfo(ctx);
    this.loadPartials(getPartials()).partial('./views/recipe/share.hbs');
