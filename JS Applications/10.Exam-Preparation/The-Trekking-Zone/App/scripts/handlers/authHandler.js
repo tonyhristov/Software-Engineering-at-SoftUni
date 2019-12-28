@@ -1,4 +1,4 @@
-import { get, post, put, del } from '../requester.js';
+import { get, post } from '../requester.js';
 import { getPartials, setHeaderInfo } from '../shared.js';
 
 // Register
