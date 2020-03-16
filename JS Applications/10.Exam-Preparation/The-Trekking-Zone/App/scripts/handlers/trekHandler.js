@@ -3,6 +3,7 @@ import { getPartials, setHeaderInfo } from '../shared.js';
 
 // Create
 export function getCreate(ctx) {
+   setHeaderInfo(ctx);
    this.loadPartials(getPartials()).partial('./views/trek/create.hbs');
 }
 
