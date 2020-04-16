@@ -1,4 +1,5 @@
 import { getPartials, setHeaderInfo } from '../shared.js';
+import { displayError, displaySuccess, displayLoading } from '../shared.js';
 import { get, post, put, del } from '../requester.js';
 
 export function getShare(ctx) {
@@ -50,9 +51,16 @@ export function postShare(ctx) {
    ) {
       post('appdata', 'recipes', recipe, 'Kinvey')
          .then(() => {
-            ctx.redirect('/');
+            displaySuccess('Recipe shared successfully!');
+            displayLoading();
+            setTimeout(() => {
+               ctx.redirect('/');
+            }, 1000);
          })
-         .catch(console.error());
+         .catch(() => {
+            displayLoading();
+            displayError('Something went wrong!');
+         });
    }
 }
 
@@ -61,7 +69,7 @@ export function getDetails(ctx) {
    const id = ctx.params.id;
 
    get('appdata', `recipes/${id}`, 'Kinvey')
-      .then(recipe => {
+      .then((recipe) => {
          recipe.isCreator =
             sessionStorage.getItem('userId') === recipe._acl.creator;
 
@@ -77,21 +85,28 @@ export function getDetails(ctx) {
 export function getLikes(ctx) {
    const id = ctx.params.id;
    get('appdata', `recipes/${id}`, 'Kinvey')
-      .then(recipe => {
+      .then((recipe) => {
          recipe.likesCounter++;
          return put('appdata', `recipes/${id}`, recipe, 'Kinvey');
       })
       .then(() => {
-         ctx.redirect(`recipe/${id}`);
+         displaySuccess('You have liked it!');
+         displayLoading();
+         setTimeout(() => {
+            ctx.redirect(`recipe/${id}`);
+         }, 1000);
       })
-      .catch(console.error());
+      .catch(() => {
+         displayLoading();
+         displayError('Something went wrong!');
+      });
 }
 
 export function getEdit(ctx) {
    const id = ctx.params.id;
    setHeaderInfo(ctx);
 
-   get('appdata', `recipes/${id}`, 'Kinvey').then(recipe => {
+   get('appdata', `recipes/${id}`, 'Kinvey').then((recipe) => {
       recipe.ingredients = recipe.ingredients.join(' ');
       ctx.recipe = recipe;
 
@@ -146,9 +161,16 @@ export function postEdit(ctx) {
    ) {
       put('appdata', `recipes/${id}`, recipe, 'Kinvey')
          .then(() => {
-            ctx.redirect(`/recipe/${id}`);
+            displaySuccess('Successfully Edited!');
+            displayLoading();
+            setTimeout(() => {
+               ctx.redirect(`/recipe/${id}`);
+            }, 1000);
          })
-         .catch(console.error());
+         .catch(() => {
+            displayLoading();
+            displayError('Something went wrong!');
+         });
    }
 }
 
@@ -157,7 +179,14 @@ export function getArchive(ctx) {
 
    del('appdata', `recipes/${id}`, 'Kinvey')
       .then(() => {
-         ctx.redirect(`/`);
+         displaySuccess('Successfully Archived!');
+         displayLoading();
+         setTimeout(() => {
+            ctx.redirect(`/`);
+         }, 1000);
       })
-      .catch(console.error());
+      .catch(() => {
+         displayLoading();
+         displayError('Something went wrong!');
+      });
 }
