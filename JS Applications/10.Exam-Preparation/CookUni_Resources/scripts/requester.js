@@ -1,6 +1,6 @@
 const baseUrl = 'https://baas.kinvey.com/';
-const appKey = 'kid_SJfXuh8TH';
-const appSecret = '59b1b21c51de4fc18d6405729625977a';
+const appKey = '';
+const appSecret = '';
 
 function createAuthorization(type) {
    return type === 'Basic'
@@ -42,9 +42,7 @@ function deserializeData(x) {
 function fetchData(kinveyModule, endpoint, headers) {
    const url = `${baseUrl}${kinveyModule}/${appKey}/${endpoint}`;
 
-   return fetch(url, headers)
-      .then(handleError)
-      .then(deserializeData);
+   return fetch(url, headers).then(handleError).then(deserializeData);
 }
 
 export function get(kinveyModule, endpoint, type) {
