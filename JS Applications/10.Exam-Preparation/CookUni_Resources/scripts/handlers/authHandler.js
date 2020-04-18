@@ -1,4 +1,5 @@
 import { getPartials, setHeaderInfo } from '../shared.js';
+import { displayError, displaySuccess, displayLoading } from '../shared.js';
 import { get, post, put, del } from '../requester.js';
 
 function saveAuthInfo(userInfo) {
@@ -33,11 +34,20 @@ export function postRegister(ctx) {
       password === repeatPassword
    ) {
       post('user', '', { firstName, lastName, username, password }, 'Basic')
-         .then(userInfo => {
+         .then((userInfo) => {
             saveAuthInfo(userInfo);
-            ctx.redirect('/');
+            displaySuccess('Successfully Registered');
+            displayLoading();
+            setTimeout(() => {
+               ctx.redirect('/');
+            }, 1000);
          })
-         .catch(console.error);
+         .catch(() => {
+            displayLoading();
+            displayError(
+               'The Username is already taken! Please retry your request with a different username.'
+            );
+         });
    }
 }
 
@@ -52,19 +62,35 @@ export function postLogin(ctx) {
 
    if ((username, password)) {
       post('user', 'login', { username, password }, 'Basic')
-         .then(userInfo => {
+         .then((userInfo) => {
             saveAuthInfo(userInfo);
-            ctx.redirect('/');
+            displaySuccess('Login Successful.');
+            displayLoading();
+            setTimeout(() => {
+               ctx.redirect('/');
+            }, 1000);
          })
-         .catch(console.error);
+         .catch(() => {
+            displayLoading();
+            displayError(
+               'Invalid Credentials! Pleases retry with a different credentials.'
+            );
+         });
    }
 }
 
 export function logout(ctx) {
    post('user', '_logout', {}, 'Kinvey')
       .then(() => {
-         sessionStorage.clear();
-         ctx.redirect('/');
+         displayLoading();
+         displaySuccess('Logout Successful!');
+         setTimeout(() => {
+            sessionStorage.clear();
+            ctx.redirect('/');
+         }, 1000);
       })
-      .catch(console.error());
+      .catch(() => {
+         displayLoading();
+         displayError('Something went wrong!');
+      });
 }
