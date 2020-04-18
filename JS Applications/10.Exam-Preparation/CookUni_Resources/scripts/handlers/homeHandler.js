@@ -8,7 +8,7 @@ export function getHome(ctx) {
 
    if (ctx.isAuth) {
       partials['error'] = './views/error.hbs';
-      get('appdata', 'recipes', 'Kinvey').then(recipes => {
+      get('appdata', 'recipes', 'Kinvey').then((recipes) => {
          ctx.recipes = recipes;
          this.loadPartials(partials).partial('./views/home.hbs');
       });
