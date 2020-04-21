@@ -1,4 +1,5 @@
 import { get, post } from '../requester.js';
+import { displayError, displaySuccess, displayLoading } from '../shared.js';
 import { getPartials, setHeaderInfo } from '../shared.js';
 
 // Register
@@ -12,11 +13,19 @@ export function postRegister(ctx) {
 
    if (username && password && password === rePassword) {
       post('user', '', { username, password }, 'Basic')
-         .then(userInfo => {
+         .then((userInfo) => {
             saveAuthInfo(userInfo);
-            ctx.redirect('/');
+            displaySuccess('Successfully Registered!');
+            displayLoading();
+            setTimeout(() => {
+               ctx.redirect('/');
+            }, 1000);
          })
-         .catch(console.error);
+         .catch(() => {
+            displayError(
+               'The Username is already taken! Please retry your request with a different username.'
+            );
+         });
    }
 }
 
@@ -31,11 +40,17 @@ export function postLogin(ctx) {
 
    if ((username, password)) {
       post('user', 'login', { username, password }, 'Basic')
-         .then(userInfo => {
+         .then((userInfo) => {
             saveAuthInfo(userInfo);
-            ctx.redirect('/');
+            displaySuccess('Successfully Logged In!');
+            displayLoading();
+            setTimeout(() => {
+               ctx.redirect('/');
+            }, 1000);
          })
-         .catch(console.error);
+         .catch(() => {
+            displayError('Wrong Username or Password');
+         });
    }
 }
 
@@ -44,17 +59,23 @@ export function getLogout(ctx) {
    post('user', '_logout', {}, 'Kinvey')
       .then(() => {
          sessionStorage.clear();
-         ctx.redirect('/');
+         displaySuccess('Logged out successfully!');
+         displayLoading();
+         setTimeout(() => {
+            ctx.redirect('/');
+         }, 1000);
       })
-      .catch(console.error());
+      .catch(() => {
+         displayError('Something went wrong!');
+      });
 }
 
 // Profile
 export function getProfile(ctx) {
    setHeaderInfo(ctx);
 
-   get('appdata', 'treks', 'Kinvey').then(treks => {
-      ctx.treks = treks.filter(t => t.organizer === ctx.username);
+   get('appdata', 'treks', 'Kinvey').then((treks) => {
+      ctx.treks = treks.filter((t) => t.organizer === ctx.username);
       ctx.numberOfTreks = ctx.treks.length;
       this.loadPartials(getPartials()).partial('./views/auth/profile.hbs');
    });
