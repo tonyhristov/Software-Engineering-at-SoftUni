@@ -34,7 +34,7 @@ export function displaySuccess(message) {
 
    setTimeout(() => {
       fadeAway(successBox);
-   }, 2000);
+   }, 1500);
 }
 
 export function displayLoading() {
@@ -44,7 +44,7 @@ export function displayLoading() {
 
    setTimeout(() => {
       fadeAway(loadingBox);
-   }, 2000);
+   }, 5000);
 }
 
 export function displayError(message) {
@@ -55,5 +55,5 @@ export function displayError(message) {
 
    setTimeout(() => {
       fadeAway(errorBox);
-   }, 2000);
+   }, 1500);
 }
