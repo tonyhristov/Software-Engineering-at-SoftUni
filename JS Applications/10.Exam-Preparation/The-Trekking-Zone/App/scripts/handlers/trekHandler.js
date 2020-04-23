@@ -1,4 +1,5 @@
 import { get, post, put, del } from '../requester.js';
+import { displayError, displaySuccess, displayLoading } from '../shared.js';
 import { getPartials, setHeaderInfo } from '../shared.js';
 
 // Create
@@ -21,9 +22,16 @@ export function postCreate(ctx) {
    if (location && dateTime && description && imageURL) {
       post('appdata', 'treks', trek, 'Kinvey')
          .then(() => {
-            ctx.redirect('/');
+            displaySuccess('Successfully created a trek!');
+            displayLoading();
+
+            setTimeout(() => {
+               ctx.redirect('/');
+            }, 2000);
          })
-         .catch(console.error);
+         .catch(() => {
+            displayError('Something went wrong!');
+         });
    }
 }
 
@@ -32,12 +40,18 @@ export function getDetails(ctx) {
    setHeaderInfo(ctx);
    const id = ctx.params.id;
    get('appdata', `treks/${id}`, 'Kinvey')
-      .then(trek => {
+      .then((trek) => {
          trek.isCreator =
             sessionStorage.getItem('userId') === trek._acl.creator;
          ctx.trek = trek;
 
-         this.loadPartials(getPartials()).partial('../views/trek/details.hbs');
+         displayLoading();
+
+         setTimeout(() => {
+            this.loadPartials(getPartials()).partial(
+               '../views/trek/details.hbs'
+            );
+         }, 2000);
       })
       .catch(console.error());
 }
@@ -48,7 +62,7 @@ export function getEdit(ctx) {
    const id = ctx.params.id;
 
    get('appdata', `treks/${id}`, 'Kinvey')
-      .then(trek => {
+      .then((trek) => {
          ctx.trek = trek;
 
          this.loadPartials(getPartials()).partial('../views/trek/edit.hbs');
@@ -78,7 +92,12 @@ export function postEdit(ctx) {
    if (location && dateTime && description && imageURL) {
       put('appdata', `treks/${id}`, trek, 'Kinvey')
          .then(() => {
-            ctx.redirect('/');
+            displaySuccess('Successfully edited a trek!');
+            displayLoading();
+
+            setTimeout(() => {
+               ctx.redirect('/');
+            }, 2000);
          })
          .catch(console.error);
    }
@@ -90,7 +109,12 @@ export function getDelete(ctx) {
 
    del('appdata', `treks/${id}`, 'Kinvey')
       .then(() => {
-         ctx.redirect('/');
+         displaySuccess('Successfully deleted a trek!');
+         displayLoading();
+
+         setTimeout(() => {
+            ctx.redirect('/');
+         }, 2000);
       })
       .catch(console.error());
 }
@@ -100,12 +124,17 @@ export function getLike(ctx) {
    const id = ctx.params.id;
 
    get('appdata', `treks/${id}`, 'Kinvey')
-      .then(trek => {
+      .then((trek) => {
          trek.likesCounter++;
          return put('appdata', `treks/${id}`, trek, 'Kinvey');
       })
       .then(() => {
-         ctx.redirect(`/trek/${id}`);
+         displaySuccess('You have Liked the trek!');
+         displayLoading();
+
+         setTimeout(() => {
+            ctx.redirect(`/trek/${id}`);
+         }, 2000);
       })
       .catch(console.error());
 }
