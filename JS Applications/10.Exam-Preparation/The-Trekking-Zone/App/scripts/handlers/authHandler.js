@@ -5,7 +5,12 @@ import { getPartials, setHeaderInfo } from '../shared.js';
 // Register
 export function getRegister(ctx) {
    setHeaderInfo(ctx);
-   this.loadPartials(getPartials()).partial('../views/auth/register.hbs');
+
+   displayLoading();
+
+   setTimeout(() => {
+      this.loadPartials(getPartials()).partial('../views/auth/register.hbs');
+   }, 2000);
 }
 export function postRegister(ctx) {
    const { username, password, rePassword } = ctx.params;
@@ -15,11 +20,13 @@ export function postRegister(ctx) {
       post('user', '', { username, password }, 'Basic')
          .then((userInfo) => {
             saveAuthInfo(userInfo);
+
             displaySuccess('Successfully Registered!');
             displayLoading();
+
             setTimeout(() => {
                ctx.redirect('/');
-            }, 1000);
+            }, 2000);
          })
          .catch(() => {
             displayError(
@@ -31,7 +38,11 @@ export function postRegister(ctx) {
 
 // Login
 export function getLogin(ctx) {
-   this.loadPartials(getPartials()).partial('./views/auth/login.hbs');
+   displayLoading();
+
+   setTimeout(() => {
+      this.loadPartials(getPartials()).partial('./views/auth/login.hbs');
+   }, 2000);
 }
 export function postLogin(ctx) {
    setHeaderInfo(ctx);
@@ -42,11 +53,13 @@ export function postLogin(ctx) {
       post('user', 'login', { username, password }, 'Basic')
          .then((userInfo) => {
             saveAuthInfo(userInfo);
+
             displaySuccess('Successfully Logged In!');
             displayLoading();
+
             setTimeout(() => {
                ctx.redirect('/');
-            }, 1000);
+            }, 2000);
          })
          .catch(() => {
             displayError('Wrong Username or Password');
@@ -59,11 +72,13 @@ export function getLogout(ctx) {
    post('user', '_logout', {}, 'Kinvey')
       .then(() => {
          sessionStorage.clear();
+
          displaySuccess('Logged out successfully!');
          displayLoading();
+
          setTimeout(() => {
             ctx.redirect('/');
-         }, 1000);
+         }, 2000);
       })
       .catch(() => {
          displayError('Something went wrong!');
@@ -77,7 +92,12 @@ export function getProfile(ctx) {
    get('appdata', 'treks', 'Kinvey').then((treks) => {
       ctx.treks = treks.filter((t) => t.organizer === ctx.username);
       ctx.numberOfTreks = ctx.treks.length;
-      this.loadPartials(getPartials()).partial('./views/auth/profile.hbs');
+
+      displayLoading();
+
+      setTimeout(() => {
+         this.loadPartials(getPartials()).partial('./views/auth/profile.hbs');
+      }, 2000);
    });
 }
 
