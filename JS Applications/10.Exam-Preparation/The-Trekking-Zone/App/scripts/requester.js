@@ -41,9 +41,7 @@ function deserializeData(x) {
 function fetchData(kinveyModule, endpoint, headers) {
    const url = `${baseUrl}${kinveyModule}/${appKey}/${endpoint}`;
 
-   return fetch(url, headers)
-      .then(handleError)
-      .then(deserializeData);
+   return fetch(url, headers).then(handleError).then(deserializeData);
 }
 
 export function get(kinveyModule, endpoint, type) {
