@@ -1,0 +1,15 @@
+{
+   "name": "cat-shelter",
+   "version": "1.0.0",
+   "description": "Project to practice my NodeJS",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "nodemon"
+   },
+   "author": "Antonio Hristov",
+   "license": "ISC",
+   "devDependencies": {
+      "nodemon": "^2.0.4"
+   }
+}
