@@ -2,7 +2,12 @@ const url = require('url');
 const fs = require('fs');
 const qs = require('querystring');
 const path = require('path');
+<<<<<<< HEAD
 const formidable = require('formidable');
+=======
+const http = require('http');
+// const formidable = require('formidable');
+>>>>>>> master
 const breeds = require('../data/breeds.json');
 const cats = require('../data/cats.json');
 
@@ -13,6 +18,7 @@ module.exports = (req, res) => {
       findPath(res, 'addCat.html');
    } else if (pathname === '/cats/add-breed' && req.method === 'GET') {
       findPath(res, 'addBreed.html');
+<<<<<<< HEAD
    } else if (pathname === '/cats/add-cat' && req.method === 'POST') {
       let form = new formidable.IncomingForm();
 
@@ -44,6 +50,9 @@ function processingPostReq(req, res, pathname, fields, files) {
 
       savingReq(res, pathname, fields, files);
    } else if (pathname === 'breeds.json') {
+=======
+   } else if (pathname === '/cats/add-breed' && req.method === 'POST') {
+>>>>>>> master
       let formData = '';
 
       req.on('data', (data) => {
@@ -51,6 +60,7 @@ function processingPostReq(req, res, pathname, fields, files) {
       });
 
       req.on('end', () => {
+<<<<<<< HEAD
          const body = qs.parse(formData);
 
          savingReq(res, pathname, body);
@@ -82,11 +92,39 @@ function savingReq(res, pathName, info, files) {
       });
    });
 }
+=======
+         let body = qs.parse(formData);
+
+         fs.readFile('./data/breeds.json', (err, data) => {
+            if (err) {
+               console.log(err);
+            }
+
+            let breeds = JSON.parse(data);
+            breeds.push(body.breed);
+            let json = JSON.stringify(breeds);
+
+            fs.writeFile('./data/breeds.json', json, 'utf-8', () =>
+               console.log('The breed was uploaded successfully!')
+            );
+         });
+      });
+
+      res.writeHead(302, { location: '/' });
+      res.end();
+   } else if (pathname === '/cats/add-cat' && req.method === 'POST') {
+      //TODO
+   } else {
+      return true;
+   }
+};
+>>>>>>> master
 
 function findPath(res, pathName) {
    const index = fs.createReadStream(`./views/${pathName}`);
 
    index.on('data', (data) => {
+<<<<<<< HEAD
       if (pathName === 'addCat.html') {
          const catBreedPlaceholder = breeds.map(
             (breed) => `<option value=${breed}>${breed}</option>`
@@ -99,6 +137,9 @@ function findPath(res, pathName) {
       } else {
          res.write(data);
       }
+=======
+      res.write(data);
+>>>>>>> master
    });
 
    index.on('end', () => {
