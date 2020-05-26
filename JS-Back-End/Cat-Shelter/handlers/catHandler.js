@@ -67,9 +67,11 @@ function savingReq(res, pathName, info, files) {
       let json = '';
       let dataJSON = JSON.parse(data);
       if (pathName === 'cats.json') {
-         dataJSON.push([
-            { id: cats.length + 1, ...info, image: files.upload.name },
-         ]);
+         dataJSON.push({
+            id: cats.length + 1,
+            ...info,
+            image: files.upload.name,
+         });
          json = JSON.stringify(dataJSON);
       } else {
          dataJSON.push(info.breed);
