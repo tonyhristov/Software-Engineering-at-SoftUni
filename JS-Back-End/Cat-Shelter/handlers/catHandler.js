@@ -27,49 +27,14 @@ module.exports = (req, res) => {
    } else if (pathname === '/cats/add-breed' && req.method === 'POST') {
       catHelper.processingPostReq(req, res, 'breeds.json');
    } else if (pathname.includes('/cats-edit') && req.method === 'GET') {
-      const index = fs.createReadStream(`./views/editCat.html`);
-      const currentCatId = req.url.split('/')[2];
-
-      index.on('data', (data) => {
-         const catPlaceholder = cats.map((cat) => {
-            if (cat.id == currentCatId) {
-               let modifiedData = data
-                  .toString()
-                  .replace('{{cat}}', currentCatId);
-               modifiedData = modifiedData.replace('{{name}}', cat.name);
-               modifiedData = modifiedData.replace(
-                  '{{description}}',
-                  cat.description
-               );
-
-               const breedsOptions = breeds.map(
-                  (breed) =>
-                     `<option value="${breed}" selected>${breed}</option>`
-               );
-               modifiedData = modifiedData.replace(
-                  '{{catBreeds}}',
-                  breedsOptions.join('/')
-               );
-               modifiedData = modifiedData.replace('{{breed}}', cat.breed);
-               res.write(modifiedData);
-            }
-         });
-      });
-
-      index.on('end', () => {
-         res.end();
-      });
-
-      index.on('error', (err) => {
-         console.log(err);
-      });
+      renderingHtml(req, res, 'editCat.html');
    } else if (pathname.includes('/cats-edit') && req.method === 'POST') {
       //TODO
    } else if (
       pathname.includes('/cats-find-new-home') &&
       req.method === 'GET'
    ) {
-      //TODO
+      renderingHtml(req, res, 'catShelter.html');
    } else if (
       pathname.includes('/cats-find-new-home') &&
       req.method === 'POST'
@@ -79,3 +44,63 @@ module.exports = (req, res) => {
       return true;
    }
 };
+function renderingHtml(req, res, pathname) {
+   const index = fs.createReadStream(`./views/${pathname}`);
+   const currentCatId = req.url.split('/')[2];
+
+   index.on('data', (data) => {
+      cats.map((cat) => {
+         if (cat.id == currentCatId) {
+            let modifiedData = data.toString().replace('{{cat}}', currentCatId);
+
+            modifiedData = modifiedData.replace('{{name}}', cat.name);
+
+            modifiedData = modifiedData.replace(
+               '{{image}}',
+               path.join('../content/post-Images/' + cat.image)
+            );
+
+            modifiedData = modifiedData.replace(
+               '{{description}}',
+               cat.description
+            );
+
+            if (pathname === 'catShelter.html') {
+               modifiedData = modifiedData.replace('{{altName}}', cat.name);
+               modifiedData = modifiedData.replace(
+                  '{{catBreeds}}',
+                  `<option value="${cat.breed}" selected>${cat.breed}</option>`
+               );
+            } else {
+               const breedsOptions = breeds.map((breed) => {
+                  let renderCount = 0;
+                  let render = '';
+
+                  if (breed === cat.breed && renderCount < 1) {
+                     render = `<option value="${cat.breed}" selected>${cat.breed}</option>`;
+                     renderCount++;
+                  } else {
+                     render = `<option value="${breed}" >${breed}</option>`;
+                  }
+
+                  return render;
+               });
+               modifiedData = modifiedData.replace(
+                  '{{catBreeds}}',
+                  breedsOptions.join('/')
+               );
+            }
+
+            res.write(modifiedData);
+         }
+      });
+   });
+
+   index.on('end', () => {
+      res.end();
+   });
+
+   index.on('error', (err) => {
+      console.log(err);
+   });
+}
