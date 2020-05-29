@@ -27,7 +27,42 @@ module.exports = (req, res) => {
    } else if (pathname === '/cats/add-breed' && req.method === 'POST') {
       catHelper.processingPostReq(req, res, 'breeds.json');
    } else if (pathname.includes('/cats-edit') && req.method === 'GET') {
-      //TODO
+      const index = fs.createReadStream(`./views/editCat.html`);
+      const currentCatId = req.url.split('/')[2];
+
+      index.on('data', (data) => {
+         const catPlaceholder = cats.map((cat) => {
+            if (cat.id == currentCatId) {
+               let modifiedData = data
+                  .toString()
+                  .replace('{{cat}}', currentCatId);
+               modifiedData = modifiedData.replace('{{name}}', cat.name);
+               modifiedData = modifiedData.replace(
+                  '{{description}}',
+                  cat.description
+               );
+
+               const breedsOptions = breeds.map(
+                  (breed) =>
+                     `<option value="${breed}" selected>${breed}</option>`
+               );
+               modifiedData = modifiedData.replace(
+                  '{{catBreeds}}',
+                  breedsOptions.join('/')
+               );
+               modifiedData = modifiedData.replace('{{breed}}', cat.breed);
+               res.write(modifiedData);
+            }
+         });
+      });
+
+      index.on('end', () => {
+         res.end();
+      });
+
+      index.on('error', (err) => {
+         console.log(err);
+      });
    } else if (pathname.includes('/cats-edit') && req.method === 'POST') {
       //TODO
    } else if (
