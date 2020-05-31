@@ -20,87 +20,76 @@ module.exports = (req, res) => {
             console.log(err);
          }
 
-         catHelper.processingPostReq(req, res, 'cats.json', fields, files);
+         catHelper.handlingPost(req, res, 'cats.json', fields, files, 'add');
       });
    } else if (pathname === '/cats/add-breed' && req.method === 'GET') {
       catHelper.findPath(res, 'addBreed.html');
    } else if (pathname === '/cats/add-breed' && req.method === 'POST') {
-      catHelper.processingPostReq(req, res, 'breeds.json');
+      catHelper.handlingPost(req, res, 'breeds.json');
    } else if (pathname.includes('/cats-edit') && req.method === 'GET') {
-      renderingHtml(req, res, 'editCat.html');
+      catHelper.renderHtml(req, res, 'editCat.html');
    } else if (pathname.includes('/cats-edit') && req.method === 'POST') {
-      //TODO
+      let form = new formidable.IncomingForm();
+      form.parse(req, (err, fields, files) => {
+         if (err) {
+            console.log(err);
+         }
+
+         fs.readFile('./data/cats.json', 'utf8', (err, data) => {
+            if (err) {
+               console.log(err);
+            }
+
+            let currentCat = JSON.parse(data);
+            const catId = req.url.split('/')[2];
+
+            currentCat = currentCat.filter((cat) => cat.catId !== catId);
+
+            currentCat.splice(cats.indexOf(currentCat), 1);
+
+            currentCat.push({
+               id: catId,
+               ...fields,
+               image: files.upload.name,
+            });
+
+            let json = JSON.stringify(currentCat);
+
+            fs.writeFile('./data/cats.json', json, () => {
+               res.writeHead(302, { location: '/' });
+               res.end();
+            });
+         });
+      });
    } else if (
       pathname.includes('/cats-find-new-home') &&
       req.method === 'GET'
    ) {
-      renderingHtml(req, res, 'catShelter.html');
+      catHelper.renderHtml(req, res, 'catShelter.html');
    } else if (
       pathname.includes('/cats-find-new-home') &&
       req.method === 'POST'
    ) {
-      //TODO
+      fs.readFile('./data/cats.json', 'utf8', (err, data) => {
+         if (err) {
+            console.log(err);
+         }
+
+         let currentCat = JSON.parse(data);
+         const catId = req.url.split('/')[2];
+
+         currentCat = currentCat.filter((cat) => cat.catId !== catId);
+
+         currentCat.splice(cats.indexOf(currentCat), 1);
+
+         let json = JSON.stringify(currentCat);
+
+         fs.writeFile('./data/cats.json', json, () => {
+            res.writeHead(302, { location: '/' });
+            res.end();
+         });
+      });
    } else {
       return true;
    }
 };
-function renderingHtml(req, res, pathname) {
-   const index = fs.createReadStream(`./views/${pathname}`);
-   const currentCatId = req.url.split('/')[2];
-
-   index.on('data', (data) => {
-      cats.map((cat) => {
-         if (cat.id == currentCatId) {
-            let modifiedData = data.toString().replace('{{cat}}', currentCatId);
-
-            modifiedData = modifiedData.replace('{{name}}', cat.name);
-
-            modifiedData = modifiedData.replace(
-               '{{image}}',
-               path.join('../content/post-Images/' + cat.image)
-            );
-
-            modifiedData = modifiedData.replace(
-               '{{description}}',
-               cat.description
-            );
-
-            if (pathname === 'catShelter.html') {
-               modifiedData = modifiedData.replace('{{altName}}', cat.name);
-               modifiedData = modifiedData.replace(
-                  '{{catBreeds}}',
-                  `<option value="${cat.breed}" selected>${cat.breed}</option>`
-               );
-            } else {
-               const breedsOptions = breeds.map((breed) => {
-                  let renderCount = 0;
-                  let render = '';
-
-                  if (breed === cat.breed && renderCount < 1) {
-                     render = `<option value="${cat.breed}" selected>${cat.breed}</option>`;
-                     renderCount++;
-                  } else {
-                     render = `<option value="${breed}" >${breed}</option>`;
-                  }
-
-                  return render;
-               });
-               modifiedData = modifiedData.replace(
-                  '{{catBreeds}}',
-                  breedsOptions.join('/')
-               );
-            }
-
-            res.write(modifiedData);
-         }
-      });
-   });
-
-   index.on('end', () => {
-      res.end();
-   });
-
-   index.on('error', (err) => {
-      console.log(err);
-   });
-}
