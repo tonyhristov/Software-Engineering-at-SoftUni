@@ -1,10 +1,5 @@
 const url = require('url');
-const fs = require('fs');
-const qs = require('querystring');
-const path = require('path');
 const formidable = require('formidable');
-const breeds = require('../data/breeds.json');
-const cats = require('../data/cats.json');
 const catHelper = require('./helpers/catHelper');
 
 module.exports = (req, res) => {
@@ -35,31 +30,7 @@ module.exports = (req, res) => {
             console.log(err);
          }
 
-         fs.readFile('./data/cats.json', 'utf8', (err, data) => {
-            if (err) {
-               console.log(err);
-            }
-
-            let currentCat = JSON.parse(data);
-            const catId = req.url.split('/')[2];
-
-            currentCat = currentCat.filter((cat) => cat.catId !== catId);
-
-            currentCat.splice(cats.indexOf(currentCat), 1);
-
-            currentCat.push({
-               id: catId,
-               ...fields,
-               image: files.upload.name,
-            });
-
-            let json = JSON.stringify(currentCat);
-
-            fs.writeFile('./data/cats.json', json, () => {
-               res.writeHead(302, { location: '/' });
-               res.end();
-            });
-         });
+         catHelper.handlingPost(req, res, 'cats.json', fields, files, 'edit');
       });
    } else if (
       pathname.includes('/cats-find-new-home') &&
@@ -70,25 +41,7 @@ module.exports = (req, res) => {
       pathname.includes('/cats-find-new-home') &&
       req.method === 'POST'
    ) {
-      fs.readFile('./data/cats.json', 'utf8', (err, data) => {
-         if (err) {
-            console.log(err);
-         }
-
-         let currentCat = JSON.parse(data);
-         const catId = req.url.split('/')[2];
-
-         currentCat = currentCat.filter((cat) => cat.catId !== catId);
-
-         currentCat.splice(cats.indexOf(currentCat), 1);
-
-         let json = JSON.stringify(currentCat);
-
-         fs.writeFile('./data/cats.json', json, () => {
-            res.writeHead(302, { location: '/' });
-            res.end();
-         });
-      });
+      catHelper.handlingPost(req, res, 'cats.json');
    } else {
       return true;
    }
