@@ -1,8 +1,6 @@
-const url = require('url');
 const fs = require('fs');
 const qs = require('querystring');
 const path = require('path');
-const formidable = require('formidable');
 const breeds = require('../../data/breeds.json');
 const cats = require('../../data/cats.json');
 
@@ -21,9 +19,9 @@ function handlingPost(req, res, pathname, fields, files, page) {
 
          savingReq(res, pathname, fields, files);
       } else if (page === 'edit') {
-         //TODO
+         handleEditOrDelete(req, res, fields, files, 'edit');
       } else {
-         //TODO
+         handleEditOrDelete(req, res);
       }
    } else if (pathname === 'breeds.json') {
       let formData = '';
@@ -38,6 +36,34 @@ function handlingPost(req, res, pathname, fields, files, page) {
          savingReq(res, pathname, body);
       });
    }
+}
+
+function handleEditOrDelete(req, res, fields, files, page) {
+   fs.readFile('./data/cats.json', 'utf8', (err, data) => {
+      if (err) {
+         console.log(err);
+      }
+
+      let currentCat = JSON.parse(data);
+      const catId = req.url.split('/')[2];
+
+      currentCat = currentCat.filter((cat) => cat.catId !== catId);
+      currentCat.splice(cats.indexOf(currentCat), 1);
+
+      if (page === 'edit') {
+         currentCat.push({
+            id: catId,
+            ...fields,
+            image: files.upload.name,
+         });
+      }
+
+      let json = JSON.stringify(currentCat);
+      fs.writeFile('./data/cats.json', json, () => {
+         res.writeHead(302, { location: '/' });
+         res.end();
+      });
+   });
 }
 
 function savingReq(res, pathName, info, files) {
