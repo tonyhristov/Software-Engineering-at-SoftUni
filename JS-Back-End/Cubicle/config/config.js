@@ -1,8 +1,8 @@
 module.exports = {
   development: {
-    port: process.env.PORT || 3000,
-    databaseUrl:
-      `mongodb+srv://user:${process.env.DB_PASSWORD}@softuni-nrtjw.mongodb.net/cubicle?retryWrites=true&w=majority`,
+    port: process.env.PORT,
+    privateKey: process.env.PRIVATE_KEY,
+    databaseUrl: process.env.DATABASE_URL,
   },
   production: {},
 };

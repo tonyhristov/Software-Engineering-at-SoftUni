@@ -1,20 +1,32 @@
+const env = process.env.NODE_ENV || "development";
+
+const config = require("../config/config")[env];
 const { Router } = require("express");
-const { getCubeWithAccessories } = require("../controllers/cubes");
+const jwt = require("jsonwebtoken");
 const Cube = require("../models/cube");
+const { getCubeWithAccessories } = require("../controllers/cubes");
+const { authAccessJson } = require("../controllers/user");
+const { authAccess } = require("../controllers/user");
+const { getUserStatus } = require("../controllers/user");
 
 const router = Router();
 
-router.get("/create", (req, res) => {
-  res.render("create", { title: "Create Cube" });
+router.get("/create", authAccess, getUserStatus, (req, res) => {
+  res.render("create", { title: "Create Cube", isLoggedIn: res.isLoggedIn });
 });
 
-router.post("/create", (req, res) => {
+router.post("/create", authAccessJson, (req, res) => {
   const { name, description, imageUrl, difficultyLevel } = req.body;
+  const token = req.cookies["aid"];
+
+  const decodedObject = jwt.verify(token, config.privateKey);
+
   const cube = new Cube({
     name,
     description,
     imageUrl,
     difficulty: difficultyLevel,
+    creatorId: decodedObject.userID,
   });
 
   cube.save((err) => {
@@ -27,18 +39,22 @@ router.post("/create", (req, res) => {
   });
 });
 
-router.get("/edit", (req, res) => {
-  res.render("editCubePage");
+router.get("/edit", authAccess, getUserStatus, (req, res) => {
+  res.render("editCubePage", { isLoggedIn: res.isLoggedIn });
 });
 
-router.get("/delete", (req, res) => {
-  res.render("deleteCubePage");
+router.get("/delete", authAccess, getUserStatus, (req, res) => {
+  res.render("deleteCubePage", { isLoggedIn: res.isLoggedIn });
 });
 
-router.get("/details/:id", async (req, res) => {
+router.get("/details/:id", getUserStatus, async (req, res) => {
   const cube = await getCubeWithAccessories(req.params.id);
 
-  res.render("details", { title: "Details", ...cube });
+  res.render("details", {
+    title: "Details",
+    ...cube,
+    isLoggedIn: res.isLoggedIn,
+  });
 });
 
 module.exports = router;
