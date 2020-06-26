@@ -1,15 +1,16 @@
-<h1>Edit Cube</h1>
+<h1>Delete Cube</h1>
 <div class="form">
-    <form action=`/deleteCube/{{_id}}` method="POST">
+    <form action='/deleteCube/{{_id}}' method="POST">
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" value="{{name}}" disabled>
+        <input type="text" id="name" name="name" value="{{name}}" disabled="true"/>
         <label for="name">Description</label>
-        <textarea id="name" name="description" disabled>{{description}}</textarea>
+        <textarea id="name" name="description" disabled="true"/>{{description}}</textarea>
         <label for="image">ImageUrl</label>
-        <input type="text" id="image" name="imageUrl" value="{{imageUrl}}" disabled>
+        <input type="text" id="image" name="imageUrl" value="{{imageUrl}}" disabled="true"/>
         <label for="difficulty">Difficulty</label>
-        <select id="difficulty" name="difficultyLevel" disabled>
-            <option value="{{difficulty}}">{{difficulty}}</option>
+        <select id="difficulty" name="difficultyLevel" value="{{difficulty}}" disabled="true"/>
+        <option value="{{difficulty}}">{{difficulty}}</option>
+
         </select>
         <input type="submit" value="Delete">
     </form>
