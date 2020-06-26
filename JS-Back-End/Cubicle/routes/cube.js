@@ -4,10 +4,10 @@ const config = require("../config/config")[env];
 const { Router } = require("express");
 const jwt = require("jsonwebtoken");
 const Cube = require("../models/cube");
-const { getCubeWithAccessories } = require("../controllers/cubes");
-const { authAccessJson } = require("../controllers/user");
-const { authAccess } = require("../controllers/user");
-const { getUserStatus } = require("../controllers/user");
+const { getCubeWithAccessories, getOneCube } = require("../controllers/cubes");
+const { DeleteCube, UpdateCube } = require("../controllers/cubes");
+const { authAccessJson, authAccess } = require("../controllers/user");
+const { getUserStatus, isAuthor } = require("../controllers/user");
 
 const router = Router();
 
@@ -39,21 +39,62 @@ router.post("/create", authAccessJson, (req, res) => {
   });
 });
 
-router.get("/edit", authAccess, getUserStatus, (req, res) => {
-  res.render("editCubePage", { isLoggedIn: res.isLoggedIn });
+router.get("/editCube/:id", authAccess, getUserStatus, async (req, res) => {
+  const cube = await getOneCube(req.params.id);
+  const isCreator = isAuthor(req, res, cube.creatorId);
+
+  res.render("editCubePage", {
+    title: "Edit Cube",
+    ...cube,
+    isLoggedIn: res.isLoggedIn,
+    isAuthor: isCreator,
+  });
 });
 
-router.get("/delete", authAccess, getUserStatus, (req, res) => {
-  res.render("deleteCubePage", { isLoggedIn: res.isLoggedIn });
+router.post("/editCube/:id", authAccessJson, async (req, res) => {
+  const { name, description, imageUrl, difficultyLevel } = req.body;
+  const cube = {
+    name: name,
+    description: description,
+    imageUrl: imageUrl,
+    difficulty: difficultyLevel,
+  };
+
+  await UpdateCube(req.params.id, cube);
+
+  res.redirect(`/details/${req.params.id}`);
+});
+
+router.get("/deleteCube/:id", authAccess, getUserStatus, async (req, res) => {
+  const cube = await getOneCube(req.params.id);
+  const isCreator = isAuthor(req, res, cube.creatorId);
+
+  res.render("deleteCubePage", {
+    title: "Delete Cube",
+    ...cube,
+    isLoggedIn: res.isLoggedIn,
+    isAuthor: isCreator,
+  });
+});
+
+router.post("/deleteCube/:id", authAccessJson, async (req, res) => {
+  const id = req.params.id;
+
+  await DeleteCube(id);
+
+  res.redirect(`/`);
 });
 
 router.get("/details/:id", getUserStatus, async (req, res) => {
   const cube = await getCubeWithAccessories(req.params.id);
 
+  const isCreator = isAuthor(req, res, cube.creatorId);
+
   res.render("details", {
     title: "Details",
     ...cube,
     isLoggedIn: res.isLoggedIn,
+    isAuthor: isCreator,
   });
 });
 

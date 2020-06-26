@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const Accessory = require("../models/accessory");
-const { getOneCube, updateCube } = require("../controllers/cubes");
+const { getOneCube, AddAccessory } = require("../controllers/cubes");
 const { getAccessories } = require("../controllers/accessories");
 const { authAccess } = require("../controllers/user");
 const { authAccessJson } = require("../controllers/user");
@@ -18,16 +18,9 @@ router.post("/create/accessory", authAccessJson, async (req, res) => {
   const { name, description, imageUrl } = req.body;
 
   const accessory = new Accessory({ name, description, imageUrl });
-  await accessory.save((err) => {
-    if (err) {
-      console.error(err);
-      res.redirect("/create");
-    } else {
-      res.redirect("/");
-    }
-  });
+  await accessory.save();
 
-  res.redirect("/create/accessory");
+  res.redirect("/");
 });
 
 router.get(
@@ -62,7 +55,7 @@ router.get(
 
 router.post("/attach/accessory/:id", authAccessJson, async (req, res) => {
   const { accessory } = req.body;
-  await updateCube(req.params.id, accessory);
+  await AddAccessory(req.params.id, accessory);
 
   res.redirect(`/details/${req.params.id}`);
 });

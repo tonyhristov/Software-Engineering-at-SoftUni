@@ -17,14 +17,14 @@ router.get("/about", getUserStatus, (req, res) => {
   res.render("about", { title: "About Cubicle", isLoggedIn: res.isLoggedIn });
 });
 
-router.get("*", getUserStatus, (req, res) => {
-  res.render("404", { title: "Not Found", isLoggedIn: res.isLoggedIn });
-});
-
-router.get("logout", (req, res) => {
+router.get("/logout", (req, res) => {
   res.clearCookie("aid");
 
   res.redirect("/");
+});
+
+router.get("*", getUserStatus, (req, res) => {
+  res.render("404", { title: "Not Found", isLoggedIn: res.isLoggedIn });
 });
 
 module.exports = router;

@@ -103,6 +103,17 @@ const getUserStatus = (req, res, next) => {
   next();
 };
 
+const isAuthor = (req, res, creatorId) => {
+  const token = req.cookies["aid"];
+  let decodedToken = jwt.decode(token);
+
+  if (!token) {
+    return false;
+  } else {
+    return decodedToken.userID == creatorId;
+  }
+};
+
 module.exports = {
   saveUser,
   verifyUser,
@@ -110,4 +121,5 @@ module.exports = {
   guestAccess,
   getUserStatus,
   authAccessJson,
+  isAuthor,
 };
