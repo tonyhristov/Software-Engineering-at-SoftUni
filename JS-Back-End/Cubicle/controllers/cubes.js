@@ -16,7 +16,7 @@ const getCubeWithAccessories = async (id) => {
   return cube;
 };
 
-const updateCube = async (cubeId, accessoryId) => {
+const AddAccessory = async (cubeId, accessoryId) => {
   await Cube.findByIdAndUpdate(cubeId, {
     $addToSet: {
       accessories: [accessoryId],
@@ -24,9 +24,21 @@ const updateCube = async (cubeId, accessoryId) => {
   });
 };
 
+const UpdateCube = async (cubeId, properties) => {
+  await Cube.findByIdAndUpdate(cubeId, {
+    $set: properties,
+  });
+};
+
+const DeleteCube = async (cubeId) => {
+  await Cube.findByIdAndDelete(cubeId);
+};
+
 module.exports = {
   getAllCubes,
   getOneCube,
-  updateCube,
+  AddAccessory,
   getCubeWithAccessories,
+  UpdateCube,
+  DeleteCube,
 };
