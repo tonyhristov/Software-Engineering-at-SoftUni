@@ -9,17 +9,19 @@ router.get("/login", guestAccess, getUserStatus, (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const status = await verifyUser(req, res);
+  const { error } = await verifyUser(req, res);
 
-  if (status) {
-    res.redirect("/");
+  if (error) {
+    return res.render("loginPage", {
+      error: "Username or password is not correct",
+    });
   }
+
+  res.redirect("/");
 });
 
 router.get("/signup", guestAccess, getUserStatus, (req, res) => {
-  const error = req.query.error ? "Username or password is not valid" : null;
-
-  res.render("registerPage", { isLoggedIn: res.isLoggedIn, error });
+  res.render("registerPage", { isLoggedIn: res.isLoggedIn });
 });
 
 router.post("/signup", async (req, res) => {
