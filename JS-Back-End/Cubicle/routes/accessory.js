@@ -17,10 +17,18 @@ router.get("/create/accessory", authAccess, getUserStatus, (req, res) => {
 router.post("/create/accessory", authAccessJson, async (req, res) => {
   const { name, description, imageUrl } = req.body;
 
-  const accessory = new Accessory({ name, description, imageUrl });
-  await accessory.save();
+  try {
+    const accessory = new Accessory({ name, description, imageUrl });
+    await accessory.save();
 
-  res.redirect("/");
+    return res.redirect("/");
+  } catch (e) {
+    res.render("createAccessory", {
+      title: "Create Accessory",
+      isLoggedIn: res.isLoggedIn,
+      error: "Accessory details are not valid!",
+    });
+  }
 });
 
 router.get(
