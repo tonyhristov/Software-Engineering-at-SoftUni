@@ -16,18 +16,24 @@ const saveUser = async (req, res) => {
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
-  const user = new User({ username, password: hashedPassword });
 
-  const userObject = await user.save();
+  try {
+    const user = new User({ username, password: hashedPassword });
+    const userObject = await user.save();
+    const token = generateToken(
+      { userID: userObject._id, username: userObject.username },
+      config.privateKey
+    );
 
-  const token = generateToken(
-    { userID: userObject._id, username: userObject.username },
-    config.privateKey
-  );
+    res.cookie("aid", token);
 
-  res.cookie("aid", token);
-
-  return true;
+    return token;
+  } catch (e) {
+    return {
+      error: true,
+      message: e,
+    };
+  }
 };
 
 const verifyUser = async (req, res) => {
