@@ -1,0 +1,37 @@
+<main>
+    <section class="container">
+        <h1>My Theater Info</h1>
+        <p>In this site you can see available play around you.</p>
+    </section>
+
+    <section>
+        {{#if isLoggedIn}}
+            <div class="aux">
+                <h1>Available Plays</h1>
+                <div class="home-buttons">
+                    <a class="btn create-play" href="/play/create-play">Create Theater</a>
+                    <a class="btn create-play" href="">Sort by Date</a>
+                    <a class="btn create-play" href="">Sort by Likes</a>
+                </div>
+            </div>
+
+            <div class="theaters-container">
+                {{#each plays}}
+                    {{> playCard}}
+                {{else}}
+                    <h4>No plays yet...</h4>
+                {{/each}}
+            </div>
+        {{else}}
+            <h1>Best Rated Plays</h1>
+            <div class="theaters-container">
+                {{#each plays}}
+                    {{> playCardLoggeddOut}}
+                {{else}}
+                    <h4>No plays yet...</h4>
+                {{/each}}
+            </div>
+        {{/if}}
+
+    </section>
+</main>
