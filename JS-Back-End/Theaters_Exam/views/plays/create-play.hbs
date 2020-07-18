@@ -3,19 +3,24 @@
         <h1>Create Theater</h1>
         <div>
             <label for="title">Theater Title:</label>
-            <input type="text" name="title" placeholder="Theater name" value="">
+            <input type="text" name="title" placeholder="Theater name" value="{{play.title}}">
         </div>
         <div>
             <label for="description">Theater Description:</label>
-            <textarea placeholder="Description" name="description"></textarea>
+            <textarea placeholder="Description" name="description">{{play.description}}</textarea>
         </div>
         <div>
             <label for="imageUrl">Image url:</label>
-            <input type="text" placeholder="Image Url" name="imageUrl" value="">
+            <input type="text" placeholder="Image Url" name="imageUrl" value="{{play.imageUrl}}">
         </div>
         <div class="check">
-            <input type="checkbox" id="check-box" name="isPublic" value="true">
-            <label for="check-box" >Public</label>
+            {{#if play.isPublic}}
+                <input type="checkbox" id="check-box" name="isPublic" checked>
+                <label for="check-box">Public</label>
+            {{else}}
+                <input type="checkbox" id="check-box" name="isPublic">
+                <label for="check-box">Public</label>
+            {{/if}}
         </div>
         <button class="btn" type="submit">Submit</button>
     </form>
