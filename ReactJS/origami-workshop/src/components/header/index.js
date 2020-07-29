@@ -5,13 +5,11 @@ import Link from "../link";
 const Header = () => {
   return (
     <header className={styles.navigation}>
-      <ul>
-        <Link href="#" title="Going to 1" />
-        <Link href="#" title="Going to 2" />
-        <Link href="#" title="Going to 3" />
-        <Link href="#" title="Going to 4" />
-        <Link href="#" title="Going to 5" />
-      </ul>
+      <Link href="#" title="Going to 1" type={"header"} />
+      <Link href="#" title="Going to 2" type={"header"} />
+      <Link href="#" title="Going to 3" type={"header"} />
+      <Link href="#" title="Going to 4" type={"header"} />
+      <Link href="#" title="Going to 5" type={"header"} />
     </header>
   );
 };
