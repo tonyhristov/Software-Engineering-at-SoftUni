@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./components/header";
+import Footer from "./components/footer";
 import Aside from "./components/aside";
 import Origamis from "./components/origamis";
 import styles from "./app.module.css";
@@ -12,6 +13,7 @@ const App = () => {
         <Aside />
         <Origamis />
       </div>
+      <Footer />
     </div>
   );
 };
