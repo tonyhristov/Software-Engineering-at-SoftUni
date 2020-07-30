@@ -5,10 +5,13 @@
   color: #234465;
   border-top: 2px solid #234465;
   border-bottom: 2px solid #234465;
-  margin-bottom: 1%;
 }
 
 .university {
   text-align: center;
   font-weight: bold;
+}
+.image {
+  float: right;
+  padding: 10px;
 }
