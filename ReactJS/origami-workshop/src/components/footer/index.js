@@ -1,7 +1,8 @@
 import React from "react";
-import Link from "../link";
+import LinkComponent from "../link";
 import styles from "./index.module.css";
 import getNavigation from "../../utils/navigation";
+import logo from "../../images/blue-origami-bird-flipped.png";
 
 const Footer = () => {
   const links = getNavigation();
@@ -10,13 +11,15 @@ const Footer = () => {
       <div>
         {links.map((navElement) => {
           return (
-            <Link
+            <LinkComponent
+              key={navElement.title}
               href={navElement.link}
               title={navElement.title}
               type={"footer"}
             />
           );
         })}
+        <img className={styles.image} src={logo} />
       </div>
 
       <p className={styles.university}>Software University 2019</p>
