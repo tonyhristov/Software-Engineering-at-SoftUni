@@ -1,0 +1,11 @@
+.label {
+  width: 30%;
+}
+
+.input {
+  border: 1px solid #234465;
+  padding: 1%;
+  width: 30%;
+  border-radius: 6px;
+  color: #234465;
+}
