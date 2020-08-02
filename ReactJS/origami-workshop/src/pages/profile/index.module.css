@@ -1,0 +1,18 @@
+.profile {
+  text-align: center;
+}
+.profile img {
+  max-width: 265px;
+  margin: 0 auto;
+  display: block;
+}
+
+.profile p {
+  text-decoration: underline;
+  margin-bottom: 1%;
+}
+
+.profile h2 {
+  color: #234465;
+  text-decoration: underline;
+}
