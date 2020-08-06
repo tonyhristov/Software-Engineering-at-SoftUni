@@ -4,13 +4,14 @@ import styles from "./index.module.css";
 import SubmitButton from "../../components/button/submit-button";
 import PageLayout from "../../components/page-layout";
 import Input from "../../components/input";
+import authenticate from "../../utils/authenticate";
 
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: "",
+      username: "",
       password: "",
       rePassword: "",
     };
@@ -23,33 +24,56 @@ class RegisterPage extends Component {
     this.setState(newState);
   };
 
+  handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const { username, password } = this.state;
+
+    await authenticate(
+      "http://localhost:9999/api/user/register",
+      {
+        username,
+        password,
+      },
+      () => {
+        console.log("Yeeeeeeyyyyyyy");
+        this.props.history.push("/");
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
+  };
+
   render() {
-    const { email, password, rePassword } = this.state;
+    const { username, password, rePassword } = this.state;
 
     return (
       <PageLayout>
-        <div className={styles.container}>
+        <form className={styles.container} onSubmit={this.handleSubmit}>
           <Title title="Register" />
           <Input
-            value={email}
-            onChange={(e) => this.onChange(e, "email")}
-            label="E-Mail"
-            id="email"
+            value={username}
+            onChange={(e) => this.onChange(e, "username")}
+            label="Username"
+            id="username"
           />
           <Input
+            type="password"
             value={password}
             onChange={(e) => this.onChange(e, "passsword")}
             label="Password"
             id="password"
           />
           <Input
+            type="password"
             value={rePassword}
             onChange={(e) => this.onChange(e, "rePassword")}
             label="Re-Password"
             id="rePassword"
           />
           <SubmitButton title="Register" />
-        </div>
+        </form>
       </PageLayout>
     );
   }
