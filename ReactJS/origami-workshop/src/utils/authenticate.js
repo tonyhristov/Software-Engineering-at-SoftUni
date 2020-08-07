@@ -13,7 +13,10 @@ const authenticate = async (url, body, onSuccess, onFailure) => {
     const response = await promise.json();
 
     if (response.username && authToken) {
-      onSuccess();
+      onSuccess({
+        username: response.username,
+        id: response._id,
+      });
     } else {
       onFailure();
     }

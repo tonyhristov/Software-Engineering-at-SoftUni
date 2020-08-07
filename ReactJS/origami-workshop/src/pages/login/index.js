@@ -5,6 +5,7 @@ import styles from "./index.module.css";
 import PageLayout from "../../components/page-layout";
 import Input from "../../components/input";
 import authenticate from "../../utils/authenticate";
+import UserContext from "../../context";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -15,6 +16,8 @@ class LoginPage extends Component {
       password: "",
     };
   }
+
+  static contextType = UserContext;
 
   handleChange = (event, type) => {
     const newState = {};
@@ -34,8 +37,8 @@ class LoginPage extends Component {
         username,
         password,
       },
-      () => {
-        console.log("Yeeeeeeyyyyyyy");
+      (user) => {
+        this.context.logIn(user);
         this.props.history.push("/");
       },
       (e) => {

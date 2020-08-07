@@ -5,6 +5,7 @@ import SubmitButton from "../../components/button/submit-button";
 import PageLayout from "../../components/page-layout";
 import Input from "../../components/input";
 import authenticate from "../../utils/authenticate";
+import UserContext from "../../context";
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -16,6 +17,8 @@ class RegisterPage extends Component {
       rePassword: "",
     };
   }
+
+  static contextType = UserContext;
 
   onChange = (event, type) => {
     const newState = {};
@@ -35,8 +38,8 @@ class RegisterPage extends Component {
         username,
         password,
       },
-      () => {
-        console.log("Yeeeeeeyyyyyyy");
+      (user) => {
+        this.context.logIn(user);
         this.props.history.push("/");
       },
       (e) => {
