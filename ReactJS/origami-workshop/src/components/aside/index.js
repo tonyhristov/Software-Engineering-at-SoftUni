@@ -1,13 +1,18 @@
-import React from "react";
+import React, { Component } from "react";
 import LinkComponent from "../link";
 import styles from "./index.module.css";
 import getNavigation from "../../utils/navigation";
+import UserContext from "../../context";
 
-const Aside = () => {
-  const links = getNavigation();
-  return (
-    <aside className={styles.container}>
-      <div>
+class Aside extends Component {
+  static contextType = UserContext;
+
+  render() {
+    const { loggedIn, user } = this.context;
+    const links = getNavigation(loggedIn, user);
+
+    return (
+      <aside className={styles.container}>
         {links.map((navElement) => {
           return (
             <LinkComponent
@@ -18,9 +23,9 @@ const Aside = () => {
             />
           );
         })}
-      </div>
-    </aside>
-  );
-};
+      </aside>
+    );
+  }
+}
 
 export default Aside;
