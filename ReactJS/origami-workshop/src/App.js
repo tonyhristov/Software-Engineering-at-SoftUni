@@ -19,6 +19,7 @@ class App extends Component {
   };
 
   logout = () => {
+    document.cookie = "x-auth-token=";
     this.setState({
       loggedIn: false,
       user: null,

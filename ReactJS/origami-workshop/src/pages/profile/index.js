@@ -3,6 +3,7 @@ import PageLayout from "../../components/page-layout";
 import Origamis from "../../components/origamis";
 import styles from "./index.module.css";
 import logo from "../../images/profile-1506810-1278719.png";
+import UserContext from "../../context";
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class ProfilePage extends Component {
       posts: null,
     };
   }
+
+  static contextType = UserContext;
 
   componentDidMount() {
     this.getUser(this.props.match.params.userId);
@@ -33,6 +36,11 @@ class ProfilePage extends Component {
     });
   };
 
+  logOut = () => {
+    this.context.logout();
+    this.props.history.push("/");
+  };
+
   render() {
     const { username, posts } = this.state;
 
@@ -49,15 +57,16 @@ class ProfilePage extends Component {
         <div className={styles.profile}>
           <img src={logo} alt="Profile Pic" />
           <p>
-            <span>User:</span>
+            <span>User: </span>
             {username}
           </p>
           <p>
-            <span>Posts:</span>
+            <span>Posts: </span>
             {posts}
           </p>
-        </div>
 
+          <button onClick={this.logOut}>Logout</button>
+        </div>
         <div>
           <h2>3 of your recent posts</h2>
           <Origamis length={3} />
