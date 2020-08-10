@@ -1,22 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PageLayout from "../../components/page-layout";
 import Title from "../../components/title";
 import SubmitButton from "../../components/button/submit-button";
 import Origamis from "../../components/origamis";
+import getCookie from "../../utils/cookie";
 
 const ShareThoughtsPage = () => {
+  const [publication, setPublication] = useState("");
+
+  const handleSubmit = async () => {
+    const promise = await fetch("http://localhost:9999/api/origami", {
+      method: "POST",
+      body: JSON.stringify({
+        description: publication,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: getCookie("x-auth-token"),
+      },
+    });
+
+    const data = await promise.json();
+    console.log(data);
+  };
+
   return (
     <PageLayout>
-      <Title title="Share your thoughts" />
+      <Title title="Share your thoughts..." />
       <Container>
         <div>
-          <TextArea defaultValue="Publication..." />
+          <TextArea
+            value={publication}
+            onChange={(e) => setPublication(e.target.value)}
+          />
         </div>
         <div>
-          <SubmitButton title="Post" />
+          <SubmitButton title="POST" onClick={handleSubmit} />
         </div>
       </Container>
+
       <Origamis length={3} />
     </PageLayout>
   );
