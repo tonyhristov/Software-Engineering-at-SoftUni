@@ -8,9 +8,10 @@ import getCookie from "../../utils/cookie";
 
 const ShareThoughtsPage = () => {
   const [publication, setPublication] = useState("");
+  const [updatedOrigami, setUpdatedOrigami] = useState([]);
 
   const handleSubmit = async () => {
-    const promise = await fetch("http://localhost:9999/api/origami", {
+    await fetch("http://localhost:9999/api/origami", {
       method: "POST",
       body: JSON.stringify({
         description: publication,
@@ -21,8 +22,8 @@ const ShareThoughtsPage = () => {
       },
     });
 
-    const data = await promise.json();
-    console.log(data);
+    setPublication("");
+    setUpdatedOrigami([...updatedOrigami, 1]);
   };
 
   return (
@@ -40,7 +41,7 @@ const ShareThoughtsPage = () => {
         </div>
       </Container>
 
-      <Origamis length={3} />
+      <Origamis length={3} updatedOrigami={updatedOrigami} />
     </PageLayout>
   );
 };
