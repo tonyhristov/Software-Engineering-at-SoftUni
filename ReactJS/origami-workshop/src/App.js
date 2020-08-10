@@ -20,6 +20,7 @@ const App = (props) => {
 
     if (!token) {
       logout();
+      setLoading(false);
       return;
     }
 
@@ -47,7 +48,7 @@ const App = (props) => {
   }, []);
 
   if (loading) {
-    // return <div>Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
