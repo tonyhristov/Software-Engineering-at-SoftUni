@@ -1,8 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-const SubmitButton = ({ title }) => {
-  return <Button type="submit">{title}</Button>;
+const SubmitButton = ({ title, onClick }) => {
+  return (
+    <Button type="submit" onClick={onClick}>
+      {title}
+    </Button>
+  );
 };
 
 const Button = styled.button`
