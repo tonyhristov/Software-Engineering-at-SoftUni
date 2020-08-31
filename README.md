@@ -110,7 +110,6 @@ data-driven web applications with Node.js, Express.js, and MongoDB, using modern
 ## ReactJS
 
 ```
-
 The training provides knowledge and practical skills for the development of Single Page Applications
 (SPA), using ReactJS - one of the most popular and fast libraries for displaying the client interface,
 developed and maintained by Facebook and Instagram.
